@@ -1315,7 +1315,7 @@ def get_overtime_two(hours_worked,date):
     else:
         return 0
 
-pain = 'pain'
+
 
 
 
