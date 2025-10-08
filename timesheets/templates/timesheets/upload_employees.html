@@ -1,0 +1,32 @@
+{% include "timesheets/header.html" %}
+{% include "timesheets/sidebar.html" %}
+<body>
+<div class="container">
+<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis ">
+    <div class="col-lg-6 px-0">
+      <h1 class="display-4 fst-italic"></h1>
+      <p class="lead my-3"></p>
+      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold"></a></p>
+    </div>
+  </div>
+
+<h1>Upload Employess</h1>
+
+  <h2>Use your current Payroll/Timesheets Excel file to upload employees</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+
+<div>
+  <p>Make sure that your Excel table has the following columns: "Employee ID, First Name, Last Name, Wage"</p>
+
+<p>Download Template below </p>
+<a href="{% url 'download_employees_template' %}" class="btn btn-primary">Download Template</a>
+</div>
+    </div>
+
+</body>
+</html>

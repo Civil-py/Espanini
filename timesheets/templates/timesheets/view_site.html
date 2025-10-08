@@ -1,0 +1,93 @@
+{% include "timesheets/header.html" %}
+{% include "timesheets/sidebar.html" %}
+
+<style>
+  .custom-btn {
+    width: 25px;       /* Adjust the width */
+    height: 25px;       /* Adjust the height */
+    font-size: 12px;    /* Adjust the font size */
+    padding: 5px 5px; /* Adjust padding */
+  }
+</style>
+
+<body>
+
+
+
+<div class="container">
+  <div class="row" id="softwareList">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+    </div>
+
+    <p></p>
+    <p></p>
+
+    <div class="card text-center">
+      <div class="card-header">
+
+        <div class="mt-2">
+      <a href="{% url 'edit_site' site.site_id %}">
+        <button class="btn custom-btn btn-outline-secondary float-start" width="15" height="15"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
+  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"></path>
+</svg></button>
+
+      </a>
+    </div>
+      </div>
+
+      <div class="card-body">
+        <h5 class="card-title display-4">{{ site }}</h5>
+        <p class="card-text">{{ site.site_address }}</p>
+
+        <div>
+          <h3>Site Managers</h3>
+          <div class="row">
+          {% for site_manager in employee_info %}
+            <div class="col-md-4 mb-4">
+              <div class="card d-flex" style="width: 18rem; height: 7rem;">
+                <div class="card-body">
+                  <h5 class="card-title">{{ site_manager.first_name }} {{ site_manager.last_name }}</h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">Employee No. {{ site_manager.employee_id }}</h6>
+                  <p class="card-text"></p>
+                  <a href="{% url 'view_site_manager' site.site_id site_manager.site_manager_id %}" class="card-link">View</a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          </div> <!-- end row -->
+        </div>
+
+        <div class="card-footer text-body-secondary">
+          Employees: {{ site_employees }}
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <a href="{% url 'add_site_managers' site.site_id %}">
+
+        <button class="btn btn-sm btn-outline-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg>Add site managers</button>
+      </a>
+      <a href="{% url 'delete_site' site.site_id %}">
+        <button class="btn btn-danger float-end">Delete Site</button>
+      </a>
+    </div>
+
+
+
+
+    <div class="mt-2">
+
+    </div>
+
+  </div>
+</div>
+
+<hr>
+</body>
+

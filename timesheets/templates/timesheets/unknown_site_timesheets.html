@@ -1,0 +1,63 @@
+{% include "timesheets/header.html" %}
+{% include "timesheets/sidebar.html" %}
+<style>
+  a:hover {
+  background-color: #eaeef8; /* Hover background color */
+  border-radius: 8px; /* Rounds the corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: all 0.3s ease; /* Smooth transition */
+  padding: 5px; /* Adds a little padding to feel more like a button */
+  text-decoration: none; /* Removes the underline for a cleaner look */
+}
+
+
+</style>
+<body>
+<section style=" padding: 60px ;" >
+              <h4></h4>
+        <div class="tittle wow fadeInUp text-center" style="visibility: visible; animation-name: fadeInUp;">
+
+    <h4 class="display-6">Timesheets With No Assigned Site</h4>
+
+  <p>{{ today }}</p>
+
+
+                    </div>
+            </section>
+
+<div class="container text-center">
+        <div class="row" id="SiteList">
+
+
+
+
+
+  <div class="row justify-content-center">
+    {% for employee in employees %}
+    <div class="col-md-4 mb-4">
+
+      <div class="card" style="width: 19rem; background: #f9fafa">
+        <a href="{% url 'view_employee_unknown_timesheets' employee.id employee.employee_id %}" class=".card-body a:hover" style="text-decoration:none;">
+
+
+        <div class="card-body">
+
+
+
+          <h5 class="card-title">{{ employee.first_name }} {{ employee.last_name }}</h5>
+        </a>
+        </div>
+            {% if employee.count > 0 %}
+  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    {{ employee.count }}
+    <span class="visually-hidden"></span>
+    {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+</body>
+

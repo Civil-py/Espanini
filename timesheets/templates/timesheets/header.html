@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espanini</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+  <style>
+
+
+    .header-container {
+    background-color: #000000;
+    padding: 2px 0;
+    position: fixed; /* Make the navbar fixed */
+    top: 0;
+    width: 100%; /* Ensure the navbar spans the full width */
+    z-index: 1000; /* Keep it above other content */
+  }
+
+
+    .navbar-brand, .nav-link {
+      color: white !important;
+      font-size: 0.9rem;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .navbar .nav-link {
+      display: flex;
+      align-items: center; /* Vertically center the image and the dropdown toggle */
+
+
+    }
+
+    .navbar .dropdown-toggle::before,
+    .navbar .dropdown-toggle::after {
+      display: none !important;
+  }
+
+    .navbar .profile-img {
+    width: 27px;
+    height: 27px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0; /* Ensure no margin around the image */
+    padding: 0; /* Ensure no padding around the image */
+    display: inline-block;
+  }
+
+    .navbar .nav-item {
+      list-style: none;
+      margin-left: 10px;
+      margin: 0;
+    }
+
+    .navbar .dropdown-toggle {
+      padding: 0 !important; /* Reduce any extra padding */
+      margin: 0 !important;
+      }
+
+    .navbar .dropdown-menu {
+      right: 10; /* Ensure it aligns to the right */
+
+      top: 30px; /* Moves the dropdown down relative to the trigger */
+      position: right; /* Ensures it's positioned absolutely relative to the navbar */
+    }
+
+    .dropdown-menu {
+      right: 0;
+      left: auto;
+    }
+
+    .dropdown-menu .dropdown-item {
+      font-size: 0.9rem;
+
+    }
+
+    .navbar .dropdown-toggle::after {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="gradient-background">
+  <div class="header-container">
+    <nav class="navbar navbar-custom navbar-expand-lg">
+      <div class="container-fluid">
+        {% if user.is_authenticated %}
+
+          <!-- Dropdown menu for authenticated users -->
+          <li class="nav-item dropdown">
+
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <img src="https://github.com/Civil-py/SAM-tool/blob/main/mvulane-tech-favicon-white.png?raw=true" alt="{{ user.username }}" class="profile-img">
+  </a>
+
+  <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+    <li class="dropdown-item "> User: {{ user.username }}</li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+  </ul>
+
+</li>
+
+        {% else %}
+          <!-- Home link for unauthenticated users -->
+          <a class="navbar-brand" href="{% url 'index' %}">
+            Home
+          </a>
+        {% endif %}
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+      </div>
+    </nav>
+  </div>
+
+  <!-- Your page content here -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-NzQoD0s4VHckwe0jZoC1WTGXSjA3v7tca07uZ4MgiD0DBi5xswN2ZghYPjNszwZ6" crossorigin="anonymous"></script>
+
+</body>
+</html>

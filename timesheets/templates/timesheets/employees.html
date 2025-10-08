@@ -1,0 +1,132 @@
+  {% include "timesheets/header.html" %}
+{% include "timesheets/sidebar.html" %}
+
+<style>
+  .d-flex {
+    display: flex;
+  }
+
+  .justify-content-between {
+    justify-content: space-between;
+  }
+
+  .align-items-center {
+    align-items: center;
+  }
+
+  .search-bar {
+    width: 300px;
+  }
+</style>
+<body>
+<div>
+
+    <p></p>
+</div>
+
+
+<div class="container ">
+  <div class="row ">
+    <div class="d-flex justify-content-between align-items-center w-100">
+      <h1 class="text-center display-6 ">Employees</h1>
+      <!-- Search Bar -->
+      <div class="ml-auto search-bar">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search for employees...">
+      </div>
+    </div>
+  </div>
+     <a href="{% url 'add_employee' %}">
+    <button class="btn btn-sm btn-outline-primary float-end"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg></button>
+  </a>
+
+  <!-- Filter Form -->
+  <form method="get" action="{% url 'employees' %}">
+      <label for="site">Site:</label>
+      <select id="site" name="site" onchange="this.form.submit()">
+          <option value="">All</option>
+          {% for site in sites %}
+          <option value="{{ site.site_id }}" {% if selected_site == site.site_id|stringformat:"s" %}selected{% endif %}>
+              {{ site }}
+          </option>
+          {% endfor %}
+      </select>
+  </form>
+    <p></p>
+
+  <!-- Display Employees -->
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Employee ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Site</th>
+        <th>Connected</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in employees %}
+      <tr>
+        <td>
+          <a href="{% url 'view_employee' employee.id %}" class="text-decoration-none text-black">
+            {{ employee.employee_id }}
+          </a>
+        </td>
+        <td>{{ employee.first_name }}</td>
+        <td>{{ employee.last_name }}</td>
+        <td>
+  {% if employee.site == "Unknown" %}
+    <span class="text-danger">{{ employee.site }}</span>
+  {% else %}
+    {{ employee.site }}
+  {% endif %}
+</td>   <td>
+  {% if employee.connected %}
+    <span class="text-success">🟢</span>
+  {% else %}
+    <span class="text-danger">❌</span>
+  {% endif %}
+</td>
+
+
+
+
+        <td>
+          <a href="{% url 'view_employee' employee.id %}" class="btn btn-sm ">View</a>
+          <a href="{% url 'edit_employee' employee.id %}" class="btn btn-sm btn-warning">Edit</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById('searchInput');
+    const employeeRows = document.querySelectorAll('tbody tr');
+
+    searchInput.addEventListener('keyup', function() {
+      const filter = searchInput.value.toLowerCase();
+      employeeRows.forEach(row => {
+        const rowText = row.textContent.toLowerCase();
+        if (rowText.includes(filter)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+
+
+</body>
+

@@ -1,0 +1,105 @@
+{% include "timesheets/header.html" %}
+{% include "timesheets/sidebar.html" %}
+<style>
+
+    body{
+    background: black;}
+</style>
+<body>
+
+<section style="background: #fefefe; padding: 30px ;" >
+              <h4></h4>
+        <div class="tittle wow fadeInUp text-center" style="visibility: visible; animation-name: fadeInUp;">
+                        <h1 class="display-5">
+    {{ employee }}
+                        </h1>
+
+                    </div>
+            </section>
+<div class="container">
+
+
+    <!-- Display the current year and month if provided -->
+
+    <!-- Filter Form -->
+    <form method="get" action="{% url 'all_employee_timesheets' employee.id employee.employee_id %}">
+        <label for="year" style="color: white">Year:</label>
+        <select id="year" name="year" onchange="this.form.submit()">
+            <option value="">All</option>
+            {% for y in years %}
+            <option value="{{ y }}" {% if year == y|stringformat:"s" %}selected{% endif %}>
+                {{ y }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label for="month" style="color: white">Month:</label>
+        <select id="month" name="month" onchange="this.form.submit()">
+            <option value="">All</option>
+            {% for m in months %}
+            <option value="{{ m }}" {% if month == m|stringformat:"s" %}selected{% endif %}>
+                {{ m }}
+            </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <!-- Display the filtered timesheets -->
+<p></p>
+
+<table class="table table-striped table-bordered table-hover" style="background: white">
+    <thead>
+      <tr>
+
+        <th scope="col">Date</th>
+        <th scope="col">Time In</th>
+        <th scope="col">Time Out</th>
+          <th scope="col">Hours Worked</th>
+        <th scope="col">OT 1</th>
+        <th scope="col">OT 2</th>
+
+        <th scope="col">Signed Off By</th>
+
+      </tr>
+    </thead>
+    <tbody id="employeeTable" >
+      {% for timesheet in timesheets %}
+      <tr>
+
+        <td><a href="{% url 'edit_employee_timesheet' timesheet.id %}" class="text-decoration-none text-black">{{ timesheet.date }}
+        </a></td>
+
+        <td>{{ timesheet.clock_in }}</td>
+        <td>{{ timesheet.clock_out }}</td>
+        <td>{{ timesheet.hours_worked }}</td>
+        <td>{{ timesheet.overtime_normal_saturdays }}</td>
+
+        <td>{{ timesheet.overtime_holiday_sundays }}</td>
+        {% if timesheet.signed_off_by %}
+        <td>{{ timesheet.signed_off_by }}</td>
+          {% else %}
+          <td>Not Signed Off Yet</td>
+          {% endif %}
+
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+</div>
+<div class="p-4 p-md-3 mb-4 rounded text-body-emphasis ">
+    <div class="col-lg-6 px-0">
+      <h1 class="display-4 fst-italic"></h1>
+      <p class="lead my-3"></p>
+      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold"></a></p>
+    </div>
+  </div>
+<div class="p-4 p-md-3 mb-4 rounded text-body-emphasis ">
+    <div class="col-lg-6 px-0">
+      <h1 class="display-4 fst-italic"></h1>
+      <p class="lead my-3"></p>
+      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold"></a></p>
+    </div>
+  </div>
+
+</body>
+

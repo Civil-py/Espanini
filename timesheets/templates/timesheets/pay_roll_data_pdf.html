@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Payroll Data PDF</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #000;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>Payroll Data</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Employee No.</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Position</th>
+                <th>Site</th>
+                <th>Normal Hours</th>
+                <th>Overtime Normal & Saturdays</th>
+                <th>Overtime Holiday & Sundays</th>
+                <th>Total Hours Worked</th>
+                <th>Owed</th>
+                <th>Period</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td>{{ employee.employee_id }}</td>
+                <td>{{ employee.first_name }}</td>
+                <td>{{ employee.last_name }}</td>
+                <td>{{ employee.position }}</td>
+                <td>{{ employee.site }}</td>
+                <td>{{ employee.total_normal_hours }}</td>
+                <td>{{ employee.total_overtime_normal_saturdays }}</td>
+                <td>{{ employee.total_overtime_holiday_sundays }}</td>
+                <td>{{ employee.total_hours_worked }}</td>
+                <td>R{{ employee.owed }}</td>
+                <td>{{ employee.period }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

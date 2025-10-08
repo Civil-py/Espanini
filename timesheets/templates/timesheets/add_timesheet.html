@@ -1,0 +1,34 @@
+{% include "timesheets/header.html" %}
+<body>
+{% for m in messages %}
+{{ m }}
+{% endfor %}
+<div class="container">
+  <div class="row" id="softwareList">
+
+    <div class="d-flex justify-content-between align-items-center">
+  <nav style="--bs-breadcrumb-divider: '||';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+       <li class="breadcrumb-item"><a href="{% url 'timesheets' %}">timesheets</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add Timesheet</li>
+  </ol>
+</nav>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <form action="" method='POST'>
+                {% csrf_token %}
+                {{ form }}
+
+                <button type="submit" class="btn btn-secondary btn-sm" value=""> Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+{% include "timesheets/footer.html" %}

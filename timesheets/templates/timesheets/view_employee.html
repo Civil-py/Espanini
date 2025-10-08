@@ -1,0 +1,64 @@
+{% include "timesheets/header.html" %}
+{% include "timesheets/sidebar.html" %}
+<body>
+
+<p></p>
+
+<div class="p-4 p-md-3 mb-4 rounded text-body-emphasis ">
+    <div class="col-lg-6 px-0">
+      <h1 class="display-4 fst-italic"></h1>
+      <p class="lead my-3"></p>
+      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold"></a></p>
+    </div>
+  </div>
+  </div>
+<div class="container">
+
+ <div class="col">
+      <a href="{% url 'add_employee_timesheet' employee.id %}">
+    <button class="btn btn-sm btn-outline-primary float-end"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg></button>
+  </a>
+
+
+        <div class="card mb-4 rounded-3 shadow-sm text-center">
+
+          <div class="card-header py-3">  <a href="{% url 'all_employee_timesheets'  employee.id employee.employee_id %}">
+<button class="btn btn-sm btn-outline-primary float-start">Timesheet History</button>
+    </a> <a href="{% url 'edit_employee' employee.id %}">
+        <button class="btn custom-btn btn-outline-secondary float-end" width="15" height="15"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
+  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"></path>
+</svg>
+        </button></a>
+
+          </div>
+          <div class="card-body">
+            <h4 class="card-title pricing-card-title">{{ employee.first_name }} {{ employee.last_name }}</h4>
+               <div>
+            <p class="my-0 fw-normal">Employee No. {{ employee.employee_id }}</p>
+              </div>
+            <ul class="list-unstyled mt-3 mb-4">
+
+              <li>Site: {{ employee.site }}</li>
+              <li>{{ employee.position }}</li>
+              <li>{{ employee.email }}</li>
+              <li></li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+<div>
+    <a href="{% url 'delete_employee' employee.id employee.employee_id %}">
+<button class="btn btn-danger float-end">Delete Employee</button>
+    </a>
+</div>
+
+
+</div>
+
+
+</body>
+

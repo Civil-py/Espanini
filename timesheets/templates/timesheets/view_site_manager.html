@@ -1,0 +1,54 @@
+{% include "timesheets/header.html" %}
+{% include "timesheets/sidebar.html" %}
+<body>
+
+<p></p>
+<div class="p-4 p-md-3 mb-4 rounded text-body-emphasis ">
+    <div class="col-lg-6 px-0">
+      <h1 class="display-4 fst-italic"></h1>
+      <p class="lead my-3"></p>
+      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold"></a></p>
+    </div>
+  </div>
+<div class="container">
+
+
+      <div class="col">
+
+        <div class="card mb-4 rounded-3 shadow-sm text-center">
+          <div class="card-header py-3">
+            <p class="my-0 fw-normal">Employee No. {{ employee.employee_id }}</p>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title pricing-card-title">{{ employee.first_name }} {{ employee.last_name }}</h4>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Site: {{ employee.site }}</li>
+              <li>{{ employee.position }}</li>
+              <li>{{ employee.email }}</li>
+              <li>Assigned: {{ site_manager.assigned }}</li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+
+
+<p >{{ site.address }}</p>
+
+<div class="container">
+  <div class="row" id="softwareList">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+
+</div>
+</div>
+               <a href="{% url 'delete_site_manager' site.site_id site_manager.id %}">
+<button class="btn btn-sm btn-outline-danger ">Unassign Manager</button>
+    </a>
+      </div>
+
+<hr>
+</body>
+

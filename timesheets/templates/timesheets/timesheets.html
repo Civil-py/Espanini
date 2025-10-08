@@ -1,0 +1,114 @@
+{% include "timesheets/header.html" %}
+{% include "timesheets/sidebar.html" %}
+<style>
+   .top-right-image {
+
+            top: -20px; /* Adjust to move image down */
+            right: 30px; /* Adjust to move image right */
+            width: 50px; /* Adjust as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+</style>
+<body>
+{% for m in messages %}
+{{ m }}
+{% endfor %}
+
+
+<section style=" padding: 60px ;" >
+              <h4></h4>
+        <div class="tittle wow fadeInUp text-center" style="visibility: visible; animation-name: fadeInUp;">
+                        <h1 class="display-4">
+   Site Timesheets
+                        </h1>
+
+                    </div>
+            </section>
+
+
+  <div class="container">
+    <div class="row justify-content-center" id="SiteList"> <!-- Center the cards -->
+
+
+      {% for site in sites_count %}
+
+      <div class="col-md-4 mb-4">
+          <a href="{% url 'view_site_employees' site.site_id %}" style="text-decoration:none;" >
+        <div class="card" style="width: 18rem; background: #f9fafa">
+          <div class="card-body">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Clock_12-00.svg" class="top-right-image" >
+
+            <h5 class="card-title">{{ site.site_name }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">{{ site.site_address }}</h6>
+            <div class="d-flex justify-content-between align-items-center w-100">
+            </a>
+          <p>{{ site.company_id }}</p>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
+  <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5z"/>
+  <path d="M2 3h10v2H2zm0 3h4v3H2zm0 4h4v1H2zm0 2h4v1H2zm5-6h2v1H7zm3 0h2v1h-2zM7 8h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2z"/>
+</svg>
+                  {% if site.site_count > 0 %}
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ site.site_count }}
+                    <span class="visually-hidden"></span>
+                  </span>
+                  {% endif %}
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+
+
+<div class="row justify-content-center" id="unkown"> <!-- Center the cards -->
+
+
+      {% if unknown_count > 0 %}
+
+      <div class="col-md-4 mb-4">
+          <a href="{% url 'view_unknown_site_employees' %}" style="text-decoration:none;" >
+        <div class="card" style="width: 18rem; background: #f9fafa">
+          <div class="card-body">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Clock_12-00.svg" class="top-right-image" >
+
+            <h5 class="card-title">Unknown Site</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary"></h6>
+            <div class="d-flex justify-content-between align-items-center w-100">
+            </a>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
+  <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5z"/>
+  <path d="M2 3h10v2H2zm0 3h4v3H2zm0 4h4v1H2zm0 2h4v1H2zm5-6h2v1H7zm3 0h2v1h-2zM7 8h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2z"/>
+</svg>
+
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ unknown_count }}
+                    <span class="visually-hidden"></span>
+                  </span>
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+{% endif %}
+
+
+
+    </div>
+  </div>
+<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis ">
+    <div class="col-lg-6 px-0">
+      <h1 class="display-4 fst-italic"></h1>
+      <p class="lead my-3"></p>
+      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold"></a></p>
+    </div>
+
+  </div>
+</body>
+

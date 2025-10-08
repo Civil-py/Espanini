@@ -1,0 +1,27 @@
+{% include "timesheets/header.html" %}
+<body>
+<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis ">
+    <div class="col-lg-6 px-0">
+      <h1 class="display-4 fst-italic"></h1>
+      <p class="lead my-3"></p>
+      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold"></a></p>
+    </div>
+  </div>
+
+
+<div class="container">
+  <h2>Add Timesheet For {{ employee }}</h2>
+    <div class="row">
+        <div class="col-md-12">
+
+            <form action="" method='POST'>
+                {% csrf_token %}
+                {{ form }}
+
+                <button type="submit" class="btn btn-secondary btn-sm" value=""> Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+<hr>
+</body>

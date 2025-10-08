@@ -1,0 +1,40 @@
+{% include "timesheets/header.html" %}
+<body>
+{% for m in messages %}
+{{ m }}
+{% endfor %}
+<div class="container">
+  <div class="row" id="softwareList">
+
+    <div class="d-flex justify-content-between align-items-center">
+  <nav style="--bs-breadcrumb-divider: '||';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+       <li class="breadcrumb-item"><a href="{% url 'sites' %}">sites</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'view_site' site.site_id %}"> View Site</a></li>
+
+    <li class="breadcrumb-item active" aria-current="page">View Site Managers</li>
+  </ol>
+</nav>
+</div>
+
+<p>{{ site }} Managers</p>
+<p>{{ site.address }}</p>
+
+{% for manager in site_managers %}
+<a href="{% url 'view_site_manager' site.site_id manager.id %}">
+<p>{{ manager }}</p>
+    </a>
+
+{% endfor %}
+
+
+
+<div>
+    <a href="{% url 'add_site_managers' site.site_id %}">Add site managers</a>
+</div>
+
+
+
+</body>
+

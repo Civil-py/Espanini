@@ -1,0 +1,35 @@
+{% include "timesheets/header.html" %}
+{% include "timesheets/sidebar.html" %}
+{% block content %}
+{% for m in messages %}
+{{ m }}
+{% endfor %}
+<h2>Users</h2>
+<div class="container">
+
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Serial Number</th>
+            <th>Employees Registered</th>
+            <th>Last Seen</th>
+            <th>Status</th>
+
+        </tr>
+        {% for device in devices %}
+        <tr>
+            <td>
+
+                    {{ device.name }}
+
+            </td>
+            <td>{{ device.serial_number }}</td>
+            <td>{{ device.employees }}</td>
+            <td>{{ device.last_seen }}</td>
+            <td>{{ device.status }}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

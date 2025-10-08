@@ -1,0 +1,54 @@
+{% include "timesheets/header.html" %}
+<body>
+{% for m in messages %}
+{{ m }}
+{% endfor %}
+<div class="container">
+  <div class="row" id="softwareList">
+
+    <div class="d-flex justify-content-between align-items-center">
+      <nav style="--bs-breadcrumb-divider: '||';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'timesheets' %}">Timesheets</a></li>
+          <li class="breadcrumb-item active" aria-current="page">View Site Timesheets </li>
+        </ol>
+      </nav>
+    </div>
+
+    <h2>{{ site }}</h2>
+    <p>{{ site.site_address }}</p>
+
+    <form method="get" action="#">
+      <label for="date">Select date:</label>
+      <input type="date" id="date" name="date" value="{{ request.GET.date|default:today }}">
+      <button type="submit">Select Date</button>
+    </form>
+        {% if  timesheets_to_sign_off %}
+    <h4>Timesheets to Sign Off</h4>
+    {% for timesheet in timesheets_to_sign_off %}
+      <div>
+        <a href="{% url 'view_timesheet' site.site_id timesheet.id %}">
+          <p>{{ timesheet }}</p>
+        </a>
+      </div>
+    {% endfor %}
+      {% else %}
+      <P></P>
+      {% endif %}
+
+      <h4>Timesheets  already Signed Off</h4>
+    {% for timesheet in timesheets_signed_off %}
+      <div>
+        <a href="{% url 'view_timesheet' site.site_id timesheet.id %}">
+          <p>{{ timesheet }}</p>
+        </a>
+      </div>
+    {% endfor %}
+    <a href="{% url 'add_timesheet' %}">
+      <button>Clock in</button>
+    </a>
+  </div>
+</div>
+</body>
+
