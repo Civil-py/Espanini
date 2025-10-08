@@ -1,0 +1,57 @@
+{% include "timesheets/header.html" %}
+<body>
+
+<div class="container">
+  <div class="row" id="softwareList">
+
+    <div class="d-flex justify-content-between align-items-center">
+  <nav style="--bs-breadcrumb-divider: '||';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+       <li class="breadcrumb-item"><a href="{% url 'timesheets' %}">Timesheets</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'view_site_employees' timesheet.site_id %}"> View Site Timesheet</a></li>
+
+    <li class="breadcrumb-item active" aria-current="page">View Site Timesheets </li>
+  </ol>
+
+</nav>
+</div>
+
+      <div class="card text-center text-bg-secondary">
+
+  <div class="card-body">
+    <h5 class="card-title">{{ timesheet }}</h5>
+    <p class="card-text">Site: {{ timesheet.site }}</p>
+      <p class="card-text">Date: {{ timesheet.formatted_date }}</p>
+      <p class="card-text">Clock in time: {{ timesheet.clock_in }}</p>
+      <p class="card-text"><p>Clock out time: {{ timesheet.clock_out }}</p>
+      <p class="card-text">Hours Worked: {{ timesheet.hours_worked }}</p>
+      <p class="card-text">Normal Hours: {{ timesheet.normal_hours }}</p>
+      {% if timesheet.overtime_normal_saturdays > 0 %}
+      <p class="card-text">Overtime normal & Saturdays: {{ timesheet.overtime_normal_saturdays }}</p>
+       {% else %}
+      <p></p>
+      {% endif %}
+      {% if timesheet.overtime_holiday_sundays > 0 %}
+      <p class="card-text">Overtime Holidays and Sundays: {{ timesheet.overtime_holiday_sundays }}</p>
+      {% else %}
+      <p></p>
+      {% endif %}
+    {% if timesheet.signed_off %}
+      <p class="card-text">Signed Off By: {{ timesheet.signed_off_by }}</p>
+      {% else %}
+    <a href="{% url 'sign_off_timesheet' timesheet.id  %}" class="btn btn-primary">Sign Off</a>
+       {% endif %}
+  </div>
+</div>
+
+
+
+      <div>
+    <a href="{% url 'delete_timesheet' timesheet.id %}">
+<button>Delete </button>
+    </a>
+</div>
+
+ </body>
+{% include "timesheets/footer.html" %}
