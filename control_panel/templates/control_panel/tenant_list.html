@@ -1,0 +1,28 @@
+  {% include "control_panel/header.html" %}
+  {% include "control_panel/sidebar.html" %}
+{% block content %}
+  {% for m in messages %}
+{{ m }}
+{% endfor %}
+<h2>Tenants</h2>
+
+
+<div class="container">
+<table class="table">
+  <tr><th>Name</th><th>DB Alias</th><th>Actions</th></tr>
+  {% for tenant in tenants %}
+  <tr>
+    <td>{{ tenant.name }}</td>
+    <td>{{ tenant.db_alias }}</td>
+    <td><a href="{% url 'edit_tenant' tenant.id %}" class="btn btn-sm btn-warning">Edit</a> </td>
+  </tr>
+  {% endfor %}
+</table>
+  <div class="container">
+      <a href="{% url 'tenant_create' %}">
+<button class="btn btn-sm btn-outline-primary float-end"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg></button>
+      </a>
+  </div>
+{% endblock %}

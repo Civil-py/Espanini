@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espanini</title>
+
+  <style>
+    body {
+     font-family: Segoe UI;
+      gap:8px;
+      background-color: #fcfcfc;
+      margin: 0;
+      font-weight: 550;
+    }
+
+    .sidebar-container {
+      position: fixed;
+      top: 47px; /* Adjust this to be below the fixed header */
+      left: 0;
+      width: 135px;
+      height: calc(100% - 47px); /* Adjust this to account for header height */
+      background-color: #f9f9f9;
+      z-index: 1000;
+      padding-top: 10px;
+      transition: width 0.3s;
+      border-right: 1px solid #ccc;
+    }
+
+    .sidebar-container .nav-link {
+      color: black !important;
+      padding: 15px;
+      font-size: 0.9rem;
+      display: block;
+    }
+
+ .sidebar-container .nav-link:hover {
+  background-color: #f2f2f2; /* Your hover background color */
+  border-radius: 8px; /* Rounds the corners to give a button-like shape */
+  /* Adds some padding to create a button feel */
+  box-shadow: 10px 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow to lift it like a button */
+  transition: all 0.3s ease; /* Smooth transition for the hover effect */
+}
+
+
+    .sidebar-container .dropdown-menu {
+      background-color: #035f7b;
+      border: none;
+    }
+
+    .sidebar-container .profile-img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto;
+      padding-bottom: 10px;
+    }
+
+.container {
+  max-width: calc(100% - 135px); /* Full width minus sidebar width */
+  margin-left: 135px; /* Align with sidebar */
+  padding: 15px;
+}
+
+    .sidebar-container .nav-item {
+      list-style: none;
+      margin-bottom: 10px;
+    }
+
+         .content {
+      margin-left: 135px; /* Adjust to match sidebar width */
+      padding: 15px;
+     ; /* Allows full height for content */
+      overflow-y: auto; /* Allows scrolling if content overflows */
+    }
+
+    /* Ensure this helps visibility */
+    .content > * {
+      min-height: 100px; /* Minimum height for content visibility */
+    }
+
+      /* General hover effect for all anchor links */
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Include the header here -->
+
+
+  <div class="sidebar-container">
+    <nav class="navbar navbar-custom flex-column">
+      <div class="container-fluid">
+        {% if user.is_authenticated %}
+          <ul class="navbar-nav flex-column">
+
+            {% if user.role == "platform_admin" %}
+               <!-- tenant admin menu -->
+
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'user_list' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+</svg>&nbsp; Users</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'company_list' %}"><img src="https://storage.needpix.com/rsynced_images/building-2696768_1280.png" width="16" height="16" fill="currentColor" class="bi bi-plus">&nbsp;Clients</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'tenant_list' %}"><img src="https://static.thenounproject.com/png/5079143-200.png" width="16" height="16" fill="currentColor" class="bi bi-plus">&nbsp;Tenants</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'device_list' %}"><img src="https://e7.pngegg.com/pngimages/674/287/png-clipart-computer-icons-handheld-devices-mobile-device-icon-text-rectangle.png" width="16" height="16" fill="currentColor" class="bi bi-plus">&nbsp;Devices</a>
+              </li>
+
+               <li class="nav-item">
+                <a class="nav-link" href="{% url 'public-holidays' %}"><img src="https://freesvg.org/img/office-calendar.png" width="16" height="16" fill="currentColor" class="bi bi-plus">&nbsp;Public Holidays</a>
+              </li>
+
+
+
+            {% elif user.role == "site_manager" %}
+               <!-- site manager menu -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'timesheets' %}"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Clock_12-00.svg" width="16" height="16" fill="currentColor" class="bi bi-plus">&nbsp; TimeSheets</a>
+              </li>
+            {% endif %}
+              <hr>
+              <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          {% if user.is_superuser %}
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXWIdl4uwcOxTNHbTiUGJ5f4QS6nAJcTZjJw&s" alt="" width="32" height="32" class="rounded-circle me-2">
+
+          {% else %}
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzguvPaNlxlaAmRmyeXU_KEYokLrjLn81EIg&s" alt="" width="32" height="32" class="rounded-circle me-2">
+           {% endif %}
+        <strong style="color: black">{{ user }}</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+
+        <li><a class="dropdown-item" href="#">Settings</a></li>
+        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+      </ul>
+    </div>
+
+          </ul>
+        {% else %}
+          <a class="navbar-brand nav-link" href="{% url 'index' %}">Home</a>
+          <ul class="navbar-nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Login {{ user }}</a>
+                <p></p>
+            </li>
+
+          </ul>
+        {% endif %}
+      </div>
+    </nav>
+  </div>
+
+  <!-- Main content area -->
+  <div class="content">
+    <!-- Your page content here -->
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-NzQoD0s4VHckwe0jZoC1WTGXSjA3v7tca07uZ4MgiD0DBi5xswN2ZghYPjNszwZ6" crossorigin="anonymous"></script>
+
+</body>
+</html>

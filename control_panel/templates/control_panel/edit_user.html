@@ -1,0 +1,58 @@
+ {% include "timesheets/header.html" %}
+  {% include "control_panel/sidebar.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit User: {{ user.username }}</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Company</label>
+            {{ form.company }}
+            {{ form.company.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Role</label>
+            {{ form.role }}
+            {{ form.role.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tenant</label>
+            {{ form.tenant }}
+            {{ form.tenant.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password (leave blank to keep unchanged)</label>
+            {{ form.password }}
+            {{ form.password.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">is_active</label>
+            {{ form.is_active }}
+            {{ form.is_active.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'user_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

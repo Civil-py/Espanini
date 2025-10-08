@@ -1,0 +1,29 @@
+  {% include "control_panel/header.html" %}
+  {% include "control_panel/sidebar.html" %}
+{% block content %}
+  {% for m in messages %}
+{{ m }}
+{% endfor %}
+
+
+
+<div class="container">
+  <h2>Public Holidays</h2>
+<table class="table">
+  <tr><th>Date</th><th>Actions</th></tr>
+  {% for public_holiday in public_holidays %}
+  <tr>
+    <td>{{ public_holiday.date }}</td>
+    <td><a href="{% url 'delete-public-holiday' public_holiday.id %}" class="btn btn-sm btn-danger">Delete</a> </td>
+
+  {% endfor %}
+</table>
+  <div class="container">
+      <a href="{% url 'add-public-holiday' %}">
+<button class="btn btn-sm btn-outline-primary float-end"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg></button>
+      </a>
+  </div>
+
+{% endblock %}
