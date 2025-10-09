@@ -23,16 +23,14 @@ def process_event(raw_event):
             # ✅ FIX: Use employeeNoString first, then employeeNo, then verifyNo
             emp_no = (
                     inner.get("employeeNoString")
-                    or inner.get("employeeNo")
-                    or inner.get("verifyNo")
-                    or "unknown"
+
             )
         else:
             # 🔹 Manual JSON payload (curl)
             mac_address = raw_event.get("mac_address")
             date_time_str = raw_event.get("datetime")
             status = raw_event.get("attendance_status")
-            emp_no = raw_event.get("employee_no") or "unknown"
+            emp_no = raw_event.get("employeeNoString") or "unknown"
 
         # 🧩 Validation
         if not (emp_no and status and date_time_str and mac_address):
