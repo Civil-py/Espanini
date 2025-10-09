@@ -20,7 +20,12 @@ def process_event(raw_event):
             inner = raw_event.get("AccessControllerEvent", {})
             date_time_str = raw_event.get("dateTime")
             status = inner.get("attendanceStatus", "undefined")
-            emp_no = inner.get("employeeNo") or inner.get("verifyNo")
+            emp_no = (
+                    inner.get("employeeNoString")
+                    or inner.get("employeeNo")
+                    or inner.get("verifyNo")
+            )
+
         else:
             # 🔹 Standard JSON payload (from manual curl test)
             mac_address = raw_event.get("mac_address")
