@@ -67,14 +67,16 @@ def tenant_login(request):
 # control_panel/views.py
 
 
+
+
 @csrf_exempt
 def attendance_webhook(request):
-    if request.method != "POST":
-        return JsonResponse({"status": "error", "message": "Only POST allowed"}, status=405)
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-    except json.JSONDecodeError:
-        return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
+    if request.method == "POST":
+        try:
+            print("Raw payload:", request.body.decode("utf-8"))  # 👈 add this
+            data = json.loads(request.body.decode("utf-8"))
+            ...
+        except Exception as e:
+            print("Webhook error:", e)
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
-    result = process_event(data)
-    return JsonResponse(result)
