@@ -20,11 +20,12 @@ def process_event(raw_event):
             inner = raw_event.get("AccessControllerEvent", {})
             date_time_str = raw_event.get("dateTime")
             status = inner.get("attendanceStatus", "undefined")
+            # ✅ FIX: Use employeeNoString first, then employeeNo, then verifyNo
             emp_no = (
-                inner.get("employeeNo")
-                or inner.get("employeeNoString")
-                or inner.get("verifyNo")
-                or "unknown"
+                    inner.get("employeeNoString")
+                    or inner.get("employeeNo")
+                    or inner.get("verifyNo")
+                    or "unknown"
             )
         else:
             # 🔹 Manual JSON payload (curl)
