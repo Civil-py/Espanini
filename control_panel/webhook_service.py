@@ -30,7 +30,7 @@ def process_event(event):
         time_ = dt.time()
 
         # Lookup device and tenant
-        device = Devices.objects.filter(serial_no=device_sn).select_related("tenant").first()
+        device = Devices.objects.filter(serial_number=device_sn).select_related("tenant").first()
         if not device:
             return {"status": "error", "message": f"Device {device_sn} not found"}
 
