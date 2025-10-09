@@ -39,7 +39,7 @@ def process_event(raw_event):
             mac_address = raw_event.get("mac_address")
             date_time_str = raw_event.get("datetime")
             status = raw_event.get("attendance_status")
-            emp_no = raw_event.get("employeeNoString") or "unknown"
+            emp_no = raw_event.get("employeeNoString") or "hits here unknown"
 
 
         # 🧩 Validation
