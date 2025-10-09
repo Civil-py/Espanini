@@ -14,32 +14,43 @@ from timesheets.views import (
 def process_event(raw_event):
     """Process a single Hikvision event into Timesheets."""
     try:
-        # 🔍 Detect if it's a Hikvision structured payload
+        print("🔍 Top-level keys in incoming JSON:", list(raw_event.keys()))
+
+        # ✅ Try to locate AccessControllerEvent even if nested
+        event_data = None
         if "AccessControllerEvent" in raw_event:
-            mac_address = raw_event.get("macAddress")
-            inner = raw_event.get("AccessControllerEvent", {})
-            date_time_str = raw_event.get("dateTime")
+            event_data = raw_event
+        elif "event_log" in raw_event and "AccessControllerEvent" in raw_event["event_log"]:
+            event_data = raw_event["event_log"]
+        else:
+            # Try to search deeper if nested oddly
+            for key, val in raw_event.items():
+                if isinstance(val, dict) and "AccessControllerEvent" in val:
+                    event_data = val
+                    break
+
+        if event_data:
+            mac_address = event_data.get("macAddress")
+            inner = event_data.get("AccessControllerEvent", {})
+            date_time_str = event_data.get("dateTime")
             status = inner.get("attendanceStatus", "undefined")
-            # ✅ FIX: Use employeeNoString first, then employeeNo, then verifyNo
-            # ✅ Improved employee number extraction
             emp_no = (
-                    inner.get("employeeNoString")
-                    or inner.get("employeeNo")
-                    or inner.get("employeeID")
-                    or inner.get("verifyNo")
-                    or "unknown"
+                inner.get("employeeNoString")
+                or inner.get("employeeNo")
+                or inner.get("employeeID")
+                or inner.get("verifyNo")
+                or "unknown"
             )
 
-            # 🧠 Debug log to confirm what we’re seeing
-            print(f"🧩 Employee field keys in AccessControllerEvent: {list(inner.keys())}")
+            print(f"🧩 AccessControllerEvent keys: {list(inner.keys())}")
             print(f"➡️ Extracted employee_no: {emp_no}")
 
         else:
-            # 🔹 Manual JSON payload (curl)
+            print("⚠️ No AccessControllerEvent key found in JSON, falling back to manual payload")
             mac_address = raw_event.get("mac_address")
             date_time_str = raw_event.get("datetime")
             status = raw_event.get("attendance_status")
-            emp_no = raw_event.get("employeeNoString") or "hits here unknown"
+            emp_no = raw_event.get("employeeNoString") or "unknown"
 
 
         # 🧩 Validation
