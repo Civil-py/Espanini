@@ -375,9 +375,12 @@ name="Tenant C",
 curl -X POST https://espanini.onrender.com/api/webhook/attendance/ \
 -H "Content-Type: application/json" \
 -d '{
-  "employee_no": "1234",
-  "attendance_status": "CheckIn",
-  "datetime": "2025-10-09T08:30:00Z",
-  "device_sn": "FE1972225"
+  "macAddress": "04:03:12:1d:e6:66",
+  "dateTime": "2025-10-09T08:30:00Z",
+  "AccessControllerEvent": {
+    "attendanceStatus": "CheckIn",
+    "employeeNoString": "1234"
+  }
 }'
+
 

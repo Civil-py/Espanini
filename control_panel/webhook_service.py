@@ -23,7 +23,9 @@ def process_event(raw_event):
             # ✅ FIX: Use employeeNoString first, then employeeNo, then verifyNo
             emp_no = (
                     inner.get("employeeNoString")
-
+                    or inner.get("employeeNo")
+                    or inner.get("verifyNo")
+                    or "unknown"
             )
         else:
             # 🔹 Manual JSON payload (curl)
