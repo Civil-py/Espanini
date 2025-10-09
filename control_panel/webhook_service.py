@@ -1,4 +1,3 @@
-# control_panel/webhook_service.py
 import json
 from datetime import datetime
 from django.utils.dateparse import parse_datetime
@@ -11,15 +10,26 @@ from timesheets.views import (
     get_hours_worked, get_overtime_one_device, get_overtime_two, get_normal_hours
 )
 
-def process_event(event):
+
+def process_event(raw_event):
     """Process a single Hikvision event into Timesheets."""
     try:
-        emp_no = event.get("employee_no")
-        status = event.get("attendance_status")
-        date_time_str = event.get("datetime")
-        device_sn = event.get("device_sn")  # device serial or name
+        # 🔍 Detect if it's a Hikvision structured payload (nested under AccessControllerEvent)
+        if "AccessControllerEvent" in raw_event:
+            mac_address = raw_event.get("macAddress")
+            inner = raw_event.get("AccessControllerEvent", {})
+            date_time_str = raw_event.get("dateTime")
+            status = inner.get("attendanceStatus", "undefined")
+            emp_no = inner.get("employeeNo") or inner.get("verifyNo")
+        else:
+            # 🔹 Standard JSON payload (from manual curl test)
+            mac_address = raw_event.get("mac_address")
+            date_time_str = raw_event.get("datetime")
+            status = raw_event.get("attendance_status")
+            emp_no = raw_event.get("employee_no")
 
-        if not (emp_no and status and date_time_str and device_sn):
+        # 🧩 Validate
+        if not (emp_no and status and date_time_str and mac_address):
             return {"status": "error", "message": "Missing required fields"}
 
         dt = parse_datetime(date_time_str)
@@ -29,14 +39,14 @@ def process_event(event):
         date = dt.date()
         time_ = dt.time()
 
-        # Lookup device and tenant
-        device = Devices.objects.filter(serial_number=device_sn).select_related("tenant").first()
+        # 🔗 Lookup device by MAC first
+        device = Devices.objects.filter(mac_address=mac_address).select_related("tenant").first()
         if not device:
-            return {"status": "error", "message": f"Device {device_sn} not found"}
+            return {"status": "error", "message": f"Device with MAC {mac_address} not found"}
 
         tenant = getattr(device, "tenant", None)
 
-        # Activate tenant DB
+        # 🧠 Handle tenant DB if needed
         if tenant:
             try:
                 register_tenant_db(tenant)
@@ -50,6 +60,7 @@ def process_event(event):
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
+
 def _process_event_in_tenant(device, emp_no, status, date, time_):
     """Logic that writes to Timesheets in the correct tenant DB."""
     company = device.company
@@ -57,6 +68,7 @@ def _process_event_in_tenant(device, emp_no, status, date, time_):
     if not employee:
         return {"status": "error", "message": f"No matching employee {emp_no}"}
 
+    # ✅ Check-in
     if status.lower() == "checkin":
         Timesheets.objects.create(
             company=company,
@@ -70,6 +82,7 @@ def _process_event_in_tenant(device, emp_no, status, date, time_):
             employee.save(update_fields=["connected"])
         return {"status": "ok", "message": f"CheckIn for {emp_no} recorded"}
 
+    # ✅ Check-out
     elif status.lower() == "checkout":
         ts = Timesheets.objects.filter(
             employee_id=emp_no, company=company, clock_out=None
@@ -86,5 +99,6 @@ def _process_event_in_tenant(device, emp_no, status, date, time_):
         ts.save()
         return {"status": "ok", "message": f"CheckOut for {emp_no} recorded"}
 
+    # 🚫 Unknown status
     else:
         return {"status": "error", "message": f"Unknown status '{status}'"}

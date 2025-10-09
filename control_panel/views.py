@@ -71,12 +71,44 @@ def tenant_login(request):
 
 @csrf_exempt
 def attendance_webhook(request):
-    if request.method == "POST":
-        try:
-            print("Raw payload:", request.body.decode("utf-8"))  # 👈 add this
-            data = json.loads(request.body.decode("utf-8"))
-            ...
-        except Exception as e:
-            print("Webhook error:", e)
-            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    if request.method != "POST":
+        return JsonResponse({"status": "error", "message": "Only POST allowed"}, status=405)
 
+    try:
+        # Handle multipart/form-data (used by Hikvision devices sometimes)
+        if "event_log" in request.FILES or "event_log" in request.POST:
+            raw_json = request.POST.get("event_log") or request.FILES["event_log"].read().decode("utf-8")
+            print("🔍 Raw event_log JSON:", raw_json)
+            data = json.loads(raw_json)
+        else:
+            # Fallback: raw JSON in body
+            body = request.body.decode("utf-8")
+            print("🔍 Raw body:", body)
+            data = json.loads(body)
+
+    except Exception as e:
+        print("⚠️ Webhook parse error:", e)
+        return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+    try:
+        # Hikvision payload structure varies — adjust these as needed
+        event = data.get("AccessControllerEvent", {})
+        mac_address = (
+            event.get("macAddress")
+            or data.get("macAddress")
+            or event.get("deviceMac")
+            or "UnknownMAC"
+        )
+
+        result = process_event({
+            "employee_no": event.get("serialNo", "unknown"),  # TODO: map this to your employee_id field if needed
+            "attendance_status": event.get("attendanceStatus", "undefined"),
+            "datetime": data.get("dateTime") or event.get("dateTime"),
+            "mac_address": mac_address,
+        })
+
+        return JsonResponse(result)
+
+    except Exception as e:
+        print("⚠️ Webhook processing error:", e)
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)

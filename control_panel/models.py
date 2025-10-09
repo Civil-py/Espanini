@@ -82,6 +82,7 @@ class Devices(models.Model):
     username = models.CharField(max_length=100, blank=True, null=True)
     password = models.CharField(max_length=100, blank=True, null=True)
     name = models.CharField(max_length=255,)
+    mac_address = models.CharField(max_length=50, unique=True, null=True, blank=True)
     serial_number = models.CharField(max_length=100, unique=True)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     tenant = models.ForeignKey(Tenant, on_delete=models.SET_NULL, null=True, blank=True)

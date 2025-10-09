@@ -372,3 +372,12 @@ name="Tenant C",
                 db_user="neondb_owner",
                 db_password="npg_XiDKZd4Ys0yk",
 
+curl -X POST https://espanini.onrender.com/api/webhook/attendance/ \
+-H "Content-Type: application/json" \
+-d '{
+  "employee_no": "1234",
+  "attendance_status": "CheckIn",
+  "datetime": "2025-10-09T08:30:00Z",
+  "device_sn": "FE1972225"
+}'
+
