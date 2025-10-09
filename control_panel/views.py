@@ -100,12 +100,7 @@ def attendance_webhook(request):
             or "UnknownMAC"
         )
 
-        result = process_event({
-            "employee_no": event.get("serialNo", "unknown"),  # TODO: map this to your employee_id field if needed
-            "attendance_status": event.get("attendanceStatus", "undefined"),
-            "datetime": data.get("dateTime") or event.get("dateTime"),
-            "mac_address": mac_address,
-        })
+        result = process_event(data)
 
         return JsonResponse(result)
 
