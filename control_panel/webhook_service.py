@@ -27,12 +27,14 @@ def process_event(raw_event):
                     or inner.get("verifyNo")
                     or "unknown"
             )
+            string = inner.get("employeeNoString")
         else:
             # 🔹 Manual JSON payload (curl)
             mac_address = raw_event.get("mac_address")
             date_time_str = raw_event.get("datetime")
             status = raw_event.get("attendance_status")
             emp_no = raw_event.get("employeeNoString") or "unknown"
+            string = raw_event.get("employeeNoString")
 
         # 🧩 Validation
         if not (emp_no and status and date_time_str and mac_address):
@@ -62,14 +64,14 @@ def process_event(raw_event):
                 print(f"🔄 Switching to tenant DB: {tenant}")
                 register_tenant_db(tenant)
                 set_current_tenant(tenant)
-                result = _process_event_in_tenant(device, emp_no, status, date, time_)
+                result = _process_event_in_tenant(device, emp_no, status, date, time_, string)
                 print(f"✅ Tenant processing result: {result}")
                 return result
             finally:
                 clear_current_tenant()
         else:
             print("⚙️ No tenant set. Using default DB.")
-            result = _process_event_in_tenant(device, emp_no, status, date, time_)
+            result = _process_event_in_tenant(device, emp_no, status, date, time_, string)
             print(f"✅ Default DB processing result: {result}")
             return result
 
@@ -78,10 +80,10 @@ def process_event(raw_event):
         return {"status": "error", "message": str(e)}
 
 
-def _process_event_in_tenant(device, emp_no, status, date, time_):
+def _process_event_in_tenant(device, emp_no, status, date, time_, string):
     """Logic that writes to Timesheets in the correct tenant DB."""
     company = device.company
-    print(f"👷 Looking up employee: {emp_no} in company: {company}")
+    print(f"👷 Looking up employee: {emp_no} in company: {company} string {string}")
 
     employee = Employees.objects.filter(employee_id=emp_no, company=company).first()
 
