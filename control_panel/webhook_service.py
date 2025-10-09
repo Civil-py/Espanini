@@ -135,9 +135,9 @@ def _process_event_in_tenant(device, emp_no, status, date, time_, ):
         hours_worked = get_hours_worked(ts.clock_in, time_)
         ts.clock_out = time_
         ts.hours_worked = hours_worked
-        ts.normal_hours = get_normal_hours(hours_worked, date)
-        ts.overtime_normal_saturdays = get_overtime_one_device(company, ts.clock_in, time_, date)
-        ts.overtime_holiday_sundays = get_overtime_two(hours_worked, date)
+        ts.normal_hours = get_normal_hours(hours_worked, ts.date)
+        ts.overtime_normal_saturdays = get_overtime_one_device(company, ts.clock_in, time_, ts.date)
+        ts.overtime_holiday_sundays = get_overtime_two(hours_worked, ts.date)
         ts.save()
 
         print(f"🕔 CheckOut recorded for {emp_no} at {time_} | Hours worked: {hours_worked}")
