@@ -110,14 +110,20 @@ def _process_event_in_tenant(device, emp_no, status, date, time_, ):
 
     # ✅ Check-in
     if status.lower() == "checkin":
-        workday = Timesheets.objects.filter(company=company,
+        from datetime import timedelta, datetime
+
+        duplicate = Timesheets.objects.filter(
+            company=company,
             employee_id=emp_no,
             site=employee.site,
             date=date,
-            clock_in=time_,)
+            clock_in__gte=(datetime.combine(date, time_) - timedelta(minutes=1)).time(),
+            clock_in__lte=(datetime.combine(date, time_) + timedelta(minutes=1)).time(),
+        ).exists()
 
-        if workday.exsits():
-            return  {"workday already there"}
+        if duplicate:
+            print(f"⚠️ Duplicate event ignored for employee {emp_no} at {time_}")
+            return {"status": "ok", "message": "Duplicate event ignored"}
 
         Timesheets.objects.create(
             company=company,
