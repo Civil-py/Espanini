@@ -110,6 +110,15 @@ def _process_event_in_tenant(device, emp_no, status, date, time_, ):
 
     # ✅ Check-in
     if status.lower() == "checkin":
+        workday = Timesheets.objects.filter(company=company,
+            employee_id=emp_no,
+            site=employee.site,
+            date=date,
+            clock_in=time_,)
+
+        if workday.exsits():
+            return  {"workday already there"}
+
         Timesheets.objects.create(
             company=company,
             employee_id=emp_no,
