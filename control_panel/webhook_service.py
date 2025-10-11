@@ -133,9 +133,14 @@ def _process_event_in_tenant(device, emp_no, status, date, time_, ):
             clock_in=time_,
         )
         print(f"🕓 CheckIn recorded for {emp_no} at {time_}")
-        if employee.connected.lower() != "yes":
+        current_connected = (employee.connected or "").lower().strip()
+        if current_connected != "yes":
             employee.connected = "yes"
             employee.save(update_fields=["connected"])
+            print(f"✅ Employee {employee.employee_id} marked as connected.")
+        else:
+            print(f"ℹ️ Employee {employee.employee_id} already marked as connected.")
+
         return {"status": "ok", "message": f"CheckIn for {emp_no} recorded"}
 
     # ✅ Check-out
