@@ -1,4 +1,7 @@
-{% include "timesheets/header.html" %}
+{% extends "timesheets/base.html" %}
+{% block title %}View Site Managers - Espanini{% endblock %}
+
+{% block content %}
 <body>
 {% for m in messages %}
 {{ m }}
@@ -37,4 +40,5 @@
 
 
 </body>
+{% endblock %}
 

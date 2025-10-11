@@ -1,5 +1,6 @@
-{% include "timesheets/header.html" %}
-{% include "timesheets/sidebar.html" %}
+{% extends "timesheets/base.html" %}
+{% block title %}Employees - Espanini{% endblock %}
+
 {% block content %}
 {% for m in messages %}
 {{ m }}

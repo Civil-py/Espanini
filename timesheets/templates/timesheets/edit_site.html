@@ -1,4 +1,7 @@
-{% include "timesheets/header.html" %}
+{% extends "timesheets/base.html" %}
+{% block title %}Edit Site- Espanini{% endblock %}
+
+{% block content %}
 <body>
 <div class="p-4 p-md-3 mb-4 rounded text-body-emphasis ">
     <div class="col-lg-6 px-0">
@@ -38,5 +41,4 @@
 </div></div>
 
 </body>
-{% include "timesheets/footer.html" %}
-</html>
+{% endblock %}

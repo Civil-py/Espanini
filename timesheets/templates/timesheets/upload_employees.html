@@ -1,5 +1,7 @@
-{% include "timesheets/header.html" %}
-{% include "timesheets/sidebar.html" %}
+{% extends "timesheets/base.html" %}
+{% block title %}Upload Employees- Espanini{% endblock %}
+
+{% block content %}
 <body>
 <div class="container">
 <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis ">
@@ -29,4 +31,4 @@
     </div>
 
 </body>
-</html>
+{% endblock %}

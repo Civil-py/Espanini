@@ -1,10 +1,8 @@
-{% include "timesheets/header.html" %}
-{% include "timesheets/sidebar.html" %}
-<style>
+{% extends "timesheets/base.html" %}
+{% block title %}Timesheet History - Espanini{% endblock %}
 
-    body{
-    background: black;}
-</style>
+{% block content %}
+
 <body>
 
 <section style="background: #fefefe; padding: 30px ;" >
@@ -102,4 +100,5 @@
   </div>
 
 </body>
+{% endblock %}
 

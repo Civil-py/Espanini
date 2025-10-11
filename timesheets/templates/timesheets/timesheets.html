@@ -1,5 +1,7 @@
-{% include "timesheets/header.html" %}
-{% include "timesheets/sidebar.html" %}
+{% extends "timesheets/base.html" %}
+{% block title %}Timesheets - Espanini{% endblock %}
+
+{% block content %}
 <style>
    .top-right-image {
 
@@ -111,4 +113,4 @@
 
   </div>
 </body>
-
+{% endblock %}
