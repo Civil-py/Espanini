@@ -21,7 +21,7 @@
 
     <!-- Filter Form -->
     <form method="get" action="{% url 'all_employee_timesheets' employee.id employee.employee_id %}">
-        <label for="year" style="color: white">Year:</label>
+        <label for="year" style="color: black">Year:</label>
         <select id="year" name="year" onchange="this.form.submit()">
             <option value="">All</option>
             {% for y in years %}
@@ -31,7 +31,7 @@
             {% endfor %}
         </select>
 
-        <label for="month" style="color: white">Month:</label>
+        <label for="month" style="color: black">Month:</label>
         <select id="month" name="month" onchange="this.form.submit()">
             <option value="">All</option>
             {% for m in months %}
