@@ -1230,78 +1230,89 @@ def is_public_holiday(date):
 
 def get_overtime_one(request, clock_in, clock_out,date):
     company = request.user.company
-    nightshift_hours = get_nightshift_hours(company, clock_in, clock_out)
     hours_worked = get_hours_worked(clock_in, clock_out)
-
-    if is_it_saturday_sunday(date) == 'Saturday':
-        return hours_worked
-    elif nightshift_hours > 0:
-        return round(nightshift_hours, 2)
-    elif hours_worked > 9:  # typical SA normal working hours per day
-        return round(hours_worked - 9, 2)
-    else:
-        return 0
-
-
-def get_overtime_one_device(company, clock_in, clock_out,date):
-    company = company
     nightshift_hours = get_nightshift_hours(company, clock_in, clock_out)
-    hours_worked = get_hours_worked(clock_in, clock_out)
 
+    # 🟢 Priority 1: Saturdays — all hours are overtime
     if is_it_saturday_sunday(date) == 'Saturday':
-        return hours_worked
-    elif nightshift_hours > 0:
+        return round(hours_worked, 2)
+
+    # 🟢 Priority 2: Nightshift hours override everything else
+    if nightshift_hours > 0:
         return round(nightshift_hours, 2)
-    elif hours_worked > 9:  # typical SA normal working hours per day
+
+    # 🟢 Priority 3: Normal overtime (over 9 hours)
+    if hours_worked > 9:
         return round(hours_worked - 9, 2)
-    else:
-        return 0
+
+    # 🟢 Otherwise no overtime
+    return 0
+
+
+def get_overtime_one_device(company, clock_in, clock_out, date):
+    hours_worked = get_hours_worked(clock_in, clock_out)
+    nightshift_hours = get_nightshift_hours(company, clock_in, clock_out)
+
+    # 🟢 Priority 1: Saturdays — all hours are overtime
+    if is_it_saturday_sunday(date) == 'Saturday':
+        return round(hours_worked, 2)
+
+    # 🟢 Priority 2: Nightshift hours override everything else
+    if nightshift_hours > 0:
+        return round(nightshift_hours, 2)
+
+    # 🟢 Priority 3: Normal overtime (over 9 hours)
+    if hours_worked > 9:
+        return round(hours_worked - 9, 2)
+
+    # 🟢 Otherwise no overtime
+    return 0
+
 
 def get_nightshift_hours(company, clock_in, clock_out):
-
-
     if not company or not company.open or not company.close:
-        return 0  # safety fallback
+        return 0
 
     open_time = company.open
     close_time = company.close
 
+    # 24-hour operation = no nightshift
     if is_twentyfour_hours(open_time, close_time):
         return 0
 
-    date = datetime.today().date()
-    clock_in_dt = datetime.combine(date, clock_in)
-    clock_out_dt = datetime.combine(date, clock_out)
+    today = datetime.today().date()
 
-    # Handle overnight shifts (e.g. 22:00 → 06:00 next day)
+    # Convert clock times to datetime for today
+    clock_in_dt = datetime.combine(today, clock_in)
+    clock_out_dt = datetime.combine(today, clock_out)
     if clock_out_dt <= clock_in_dt:
-        clock_out_dt += timedelta(days=1)
+        clock_out_dt += timedelta(days=1)  # overnight shift
 
-    open_dt = datetime.combine(date, open_time)
-    close_dt = datetime.combine(date, close_time)
-
-    # Handle overnight business hours (e.g. open 22:00 → close 06:00)
+    open_dt = datetime.combine(today, open_time)
+    close_dt = datetime.combine(today, close_time)
     if close_dt <= open_dt:
-        close_dt += timedelta(days=1)
+        close_dt += timedelta(days=1)  # overnight company hours
 
-    # Define the full 24-hour window for night hours
-    night_start_1 = close_dt
-    night_end_1 = open_dt + timedelta(days=1)
-
-    # Calculate the overlap of [clock_in_dt, clock_out_dt] with [close_dt, next_day_open_dt]
+    # Define the "nightshift window" = close → next day open
     night_start = close_dt
     night_end = open_dt + timedelta(days=1)
 
+    # 🩵 Key Fix: handle after-midnight clock-ins (e.g. 01:25)
+    # These belong to the *previous night's* window.
+    if clock_in < open_time:
+        # shift night window back by 1 day, not forward
+        night_start -= timedelta(days=1)
+        night_end -= timedelta(days=1)
+
+    # Calculate overlap
     overlap_start = max(clock_in_dt, night_start)
     overlap_end = min(clock_out_dt, night_end)
 
-    # Only count positive overlaps
     night_hours = 0
     if overlap_end > overlap_start:
         night_hours = (overlap_end - overlap_start).total_seconds() / 3600
 
     return round(night_hours, 2)
-
 
 def is_twentyfour_hours(open_time, close_time):
     if open_time == close_time:
