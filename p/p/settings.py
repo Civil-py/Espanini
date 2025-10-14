@@ -102,6 +102,7 @@ DATABASES = {
         "PASSWORD": "npg_cPluZkjR8It4",
         "HOST": "ep-icy-haze-adb6wkqg-pooler.c-2.us-east-1.aws.neon.tech",
         "PORT": "5432",
+        "sslmode": "require",
     }
 }
 
