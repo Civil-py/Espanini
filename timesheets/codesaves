@@ -384,3 +384,25 @@ curl -X POST https://espanini.onrender.com/api/webhook/attendance/ \
 }'
 
 
+
+
+"{% for employee in employees %}
+
+								<tr class="row100 body">
+									<td class="cell100 column1">{{ employee.employee_id }}</td>
+									<td class="cell100 column2">{{ employee.first_name }}</td>
+									<td class="cell100 column3">{{ employee.last_name }}</td>
+									<td class="cell100 column4">{{ employee.site }}</td>
+
+                                          <td class="cell100 column5">
+          {% if employee.connected %}
+            <span class="text-success">🟢</span>
+          {% else %}
+            <span class="text-danger">❌</span>
+          {% endif %}
+        </td>
+								</tr>
+
+      {% endfor %}"
+
+

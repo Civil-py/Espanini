@@ -1,11 +1,24 @@
 <!-- base.html -->
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Espanini{% endblock %}</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/select2.min.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/utils.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/perfect-scrollbar.css' %}">
+
   <style>
     body {
   margin: 0;
@@ -104,6 +117,13 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'main.js' %}"></script>
+<script src="{% static 'popper.js' %}"></script>
+	<script src="{% static 'bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'perfect-scrollbar.min.js' %}"></script>
 </body>
 
 </html>

@@ -171,7 +171,7 @@ class SiteManagersForm(forms.ModelForm):
         exclude = ['company']  # ✅ hide company
         fields = ['site', 'employee', 'assigned', 'username']
         widgets = {
-            'site': forms.HiddenInput(),
+            'site': forms.Select(attrs={'class': 'form-control'}),
             'assigned': forms.HiddenInput(),
             'employee': forms.Select(attrs={'class': 'form-control'})
         }
