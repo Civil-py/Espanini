@@ -405,4 +405,19 @@ curl -X POST https://espanini.onrender.com/api/webhook/attendance/ \
 
       {% endfor %}"
 
+" <!-- Already Signed Off Section -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="card text-center">
+                    <p>Days Already Signed Off This Month ({{ year_month }})</p>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ signed_off_count }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<hr>"
+
 
