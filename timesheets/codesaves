@@ -421,3 +421,74 @@ curl -X POST https://espanini.onrender.com/api/webhook/attendance/ \
 <hr>"
 
 
+/*==================================================================
+[ Fix header + Responsive Table ]
+==================================================================*/
+
+.table100 {
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+}
+
+/* Make container scrollable */
+.table100-body {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Fix header at the top */
+.table100 thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: black;
+  color: white;
+}
+
+/* Add some nicer table styling */
+.table100 table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 700px;
+}
+
+.table100 th, .table100 td {
+  padding: 12px 15px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table100 tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+  .table100 table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .table100 th, .table100 td {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* Optional: Highlight hover column (your original JS uses this) */
+.hov-column-ver1 {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.hov-column-head-ver1 {
+  background-color: #333;
+}
+
+
+

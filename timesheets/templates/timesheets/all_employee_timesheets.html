@@ -60,9 +60,9 @@
 									<th class="cell100 column2">Time In</th>
 									<th class="cell100 column3">Time Out</th>
                                     <th class="cell100 column4">Hours Worked</th>
-									<th class="cell100 column6">OT 1</th>
+									<th class="cell100 column5">OT 1</th>
 									<th class="cell100 column6">OT 2</th>
-                                    <th class="cell100 column5">Signed</th>
+                                    <th class="cell100 column6">Signed</th>
 
 								</tr>
 							</thead>
@@ -81,14 +81,14 @@
 
                                     <td class="cell100 column4">{{ timesheet.hours_worked }}</td>
 
-                                          <td class="cell100 column6">
+                                          <td class="cell100 column5">
           {{ timesheet.overtime_normal_saturdays }}
         </td>
                              <td class="cell100 column6">{{ timesheet.overtime_holiday_sundays }}</td>
                              {% if timesheet.signed_off_by %}
-                             <td class="cell100 column5">{{ timesheet.signed_off_by }}</td>
+                             <td class="cell100 column6">{{ timesheet.signed_off_by }}</td>
                              {% else %}
-                            <td class="cell100 column5">Not Signed Off Yet</td>
+                            <td class="cell100 column6">Not Signed Off Yet</td>
                             {% endif %}
 								</tr>
 
