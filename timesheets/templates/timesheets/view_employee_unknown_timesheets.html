@@ -1,223 +1,88 @@
 {% extends "timesheets/base.html" %}
-{% block title %}View Employee Unknown Timesheets  - Espanini{% endblock %}
+{% block title %}View Employee Timesheets - Espanini{% endblock %}
 
 {% block content %}
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-
-    <style>
-        body {
-     font-family: Segoe UI;
-      gap:8px;
-      background-color: #efefef;
-      margin: 0;
-      font-weight: 550;
-    }
-
-
-        .header-container {
-    background-color: #200101;
-    padding: 2px 0;
-    position: fixed; /* Make the navbar fixed */
-    top: 0;
-    width: 100%; /* Ensure the navbar spans the full width */
-    z-index: 1000; /* Keep it above other content */
-  }
-
-
-    .navbar-brand, .nav-link {
-      color: white !important;
-      font-size: 0.9rem;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-
-    .navbar .nav-link {
-      display: flex;
-      align-items: center; /* Vertically center the image and the dropdown toggle */
-
-
-    }
-
-    .navbar .dropdown-toggle::before,
-    .navbar .dropdown-toggle::after {
-      display: none !important;
-  }
-
-    .navbar .profile-img {
-    width: 27px;
-    height: 27px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin: 0; /* Ensure no margin around the image */
-    padding: 0; /* Ensure no padding around the image */
-    display: inline-block;
-  }
-
-    .navbar .nav-item {
-      list-style: none;
-      margin-left: 10px;
-      margin: 0;
-    }
-
-    .navbar .dropdown-toggle {
-      padding: 0 !important; /* Reduce any extra padding */
-      margin: 0 !important;
-      }
-
-    .navbar .dropdown-menu {
-      right: 10; /* Ensure it aligns to the right */
-
-      top: 30px; /* Moves the dropdown down relative to the trigger */
-      position: right; /* Ensures it's positioned absolutely relative to the navbar */
-    }
-
-    .dropdown-menu {
-      right: 0;
-      left: auto;
-    }
-
-    .dropdown-menu .dropdown-item {
-      font-size: 0.9rem;
-
-    }
-
-    .navbar .dropdown-toggle::after {
-      display: none !important;
-    }
-
-        .custom-checkbox {
-            width: 15px;
-            height: 15px;
-            border-radius: 10%; /* Makes the checkbox round */
-            cursor: pointer;
-            transform: scale(1.5); /* Scales up the checkbox size */
-        }
-
-        .image-container {
-            position: relative;
-            width: 18rem; /* Match the image size */
-        }
-
-        .image-container img {
-            width: 100%;
-            height: auto;
-        }
-
-        .text-overlay {
-            position: absolute;
-            bottom: 10px; /* Adjusts the position from the bottom */
-            left: 10px; /* Adjusts the position from the left */
-            background-color: rgba(0, 0, 0, 0.0); /* Semi-transparent background */
-            color: black;
-            padding: 5px;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-    </style>
-</head>
-
 <body>
-  <div class="header-container">
-    <nav class="navbar navbar-custom navbar-expand-lg">
-      <div class="container-fluid">
-          <!-- Dropdown menu for authenticated users -->
-          <li class="nav-item dropdown">
-
-  <a class="nav-link dropdown-toggle" href="{% url 'timesheets' %}"   data-bs-toggle="dropdown" aria-expanded="false">
-
-  </a>
-      </div>
-    </nav>
-  </div>
-
-
-
-
-
-        <section style="background: #fefefe; padding: 30px ;" >
-              <h4></h4>
-            <p></p>
-        <div class="tittle wow fadeInUp text-center" style="visibility: visible; animation-name: fadeInUp;">
-                        <h1 class="display-4">
-    {{ employee }}
-                        </h1>
-
-                    </div>
-            </section>
-
-
 
     <!-- Centered Employee Name -->
     <div class="container text-center my-4">
-        <h4></h4>
+        <h2>{{ employee }}</h2>
     </div>
 
-    <!-- Bulk Sign Off Form -->
+    <!-- Total Hours Section -->
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                        <section style=" padding: 10px ;" >
-                <p class="text-center"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Clock_12-00.svg" width="16" height="16" fill="currentColor" class="bi bi-plus"> Total Hours Worked This Month: {{ total_hours_worked }}</p>
-               </section>
-
-                {% if timesheets_info %}
-                <form method="post" action="{% url 'bulk_sign_off_unknown_timesheets' employee.employee_id %}">
-                    {% csrf_token %}
-                    <table class="table table-white table-bordered border-secondary" style="background: #fefefe">
-                        <thead>
-                            <tr>
-                                <th scope="col">Day</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Time In</th>
-                                <th scope="col">Time Out</th>
-                                <th scope="col">Hours Worked</th>
-
-                                <th scope="col">Select</th>
-                            </tr>
-                        </thead>
-                        <tbody id="employeeTable" >
-                            {% for timesheet in timesheets_info %}
-                            <tr>
-                                <td>{{ timesheet.Day }}</td>
-                                <td>{{ timesheet.date }}</td>
-                                <td>{{ timesheet.clock_in }}</td>
-                                <td>{{ timesheet.clock_out }}</td>
-                                <td>{{ timesheet.hours_worked }}</td>
-
-                                <td>
-
-                                    <input type="checkbox" name="timesheet_ids" value="{{ timesheet.id }}" class="custom-checkbox ">
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <button type="submit" class="btn btn-primary float-end">Sign Off Selected</button>
-                </form>
-                {% else %}
-                <h4 class="text-center">No Timesheets to sign off</h4>
-                {% endif %}
+                <section style="padding: 10px;">
+                    <p class="text-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Clock_12-00.svg" width="16" height="16">
+                        Total Hours Worked This Month: {{ total_hours_worked }}
+                    </p>
+                </section>
             </div>
         </div>
     </div>
 
-    <!-- Already Signed Off Section -->
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-4 mb-4">
-                <div class="card text-center">
-                    <p>Days Already Signed Off This Month ({{ year_month }})</p>
-                    <div class="card-body">
-                        <h5 class="card-title text-center">{{ signed_off_count }}</h5>
-                    </div>
-                </div>
+    <!-- Timesheet Table -->
+    <div class="table100 ver2 m-b-110">
+        {% if timesheets_info %}
+        <form method="post" action="{% url 'bulk_sign_off_unknown_timesheets' employee.employee_id %}">
+            {% csrf_token %}
+
+            <div class="table100-head">
+                <table>
+                    <thead>
+                        <tr class="row100 head">
+                            <th class="cell100 column1">Day</th>
+                            <th class="cell100 column2">Date</th>
+                            <th class="cell100 column3">Time In</th>
+                            <th class="cell100 column4">Time Out</th>
+                            <th class="cell100 column5">Hours Worked</th>
+                            <th class="cell100 column6">
+                                <input type="checkbox" id="selectAll" class="custom-checkbox">
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
-        </div>
+
+            <div class="table100-body" style="max-height: 500px; overflow-y: auto; overflow-x: auto;">
+                <table>
+                    <tbody id="employeeTable">
+                        {% for timesheet in timesheets_info %}
+                        <tr class="row100 body">
+                            <td class="cell100 column1">{{ timesheet.Day }}</td>
+                            <td class="cell100 column2">{{ timesheet.date }}</td>
+                            <td class="cell100 column3">{{ timesheet.clock_in }}</td>
+                            <td class="cell100 column4">{{ timesheet.clock_out }}</td>
+                            <td class="cell100 column5">{{ timesheet.hours_worked }}</td>
+                            <td class="cell100 column6">
+                                <input type="checkbox" name="timesheet_ids" value="{{ timesheet.id }}" class="custom-checkbox timesheet-checkbox">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="submit" class="btn btn-primary float-end btn-sm mt-2">Sign Off Selected</button>
+        </form>
+        {% else %}
+        <h4 class="text-center">No Timesheets to sign off</h4>
+        {% endif %}
     </div>
 
+    <script>
+        // Select All Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.timesheet-checkbox');
 
-<hr>
+            selectAll.addEventListener('change', function () {
+                checkboxes.forEach(cb => cb.checked = selectAll.checked);
+            });
+        });
+    </script>
 
 </body>
 {% endblock %}

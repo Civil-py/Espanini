@@ -45,60 +45,67 @@
     <!-- Display the filtered timesheets -->
 <p></p>
 
-<table class="table table-striped table-bordered table-hover" style="background: white">
-    <thead>
-      <tr>
 
-        <th scope="col">Date</th>
-        <th scope="col">Time In</th>
-        <th scope="col">Time Out</th>
-          <th scope="col">Hours Worked</th>
-        <th scope="col">OT 1</th>
-        <th scope="col">OT 2</th>
 
-        <th scope="col">Signed Off By</th>
 
-      </tr>
-    </thead>
-    <tbody id="employeeTable" >
-      {% for timesheet in timesheets %}
-      <tr>
 
-        <td><a href="{% url 'edit_employee_timesheet' timesheet.id %}" class="text-decoration-none text-black">{{ timesheet.date }}
-        </a></td>
+<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100 ver2 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">Date</th>
+									<th class="cell100 column2">Time In</th>
+									<th class="cell100 column3">Time Out</th>
+                                    <th class="cell100 column4">Hours Worked</th>
+									<th class="cell100 column6">OT 1</th>
+									<th class="cell100 column6">OT 2</th>
+                                    <th class="cell100 column5">Signed</th>
 
-        <td>{{ timesheet.clock_in }}</td>
-        <td>{{ timesheet.clock_out }}</td>
-        <td>{{ timesheet.hours_worked }}</td>
-        <td>{{ timesheet.overtime_normal_saturdays }}</td>
+								</tr>
+							</thead>
+						</table>
+					</div>
 
-        <td>{{ timesheet.overtime_holiday_sundays }}</td>
-        {% if timesheet.signed_off_by %}
-        <td>{{ timesheet.signed_off_by }}</td>
-          {% else %}
-          <td>Not Signed Off Yet</td>
-          {% endif %}
+					<div class="table100-body">
+						<table>
+							<tbody>
+                             {% for timesheet in timesheets %}
+                                <td class="cell100 column1"><a href="{% url 'edit_employee_timesheet' timesheet.id %}" class="text-decoration-none text-black">
+                                    {{ timesheet.date }}
+                            </a></td>
+									<td class="cell100 column2">{{ timesheet.clock_in }}</td>
+									<td class="cell100 column3">{{ timesheet.clock_out }}</td>
 
-      </tr>
-      {% endfor %}
-    </tbody>
-</table>
+                                    <td class="cell100 column4">{{ timesheet.hours_worked }}</td>
+
+                                          <td class="cell100 column6">
+          {{ timesheet.overtime_normal_saturdays }}
+        </td>
+                             <td class="cell100 column6">{{ timesheet.overtime_holiday_sundays }}</td>
+                             {% if timesheet.signed_off_by %}
+                             <td class="cell100 column5">{{ timesheet.signed_off_by }}</td>
+                             {% else %}
+                            <td class="cell100 column5">Not Signed Off Yet</td>
+                            {% endif %}
+								</tr>
+
+
+								{% endfor %}
+							</tbody>
+						</table>
+					<div class="ps__rail-x" style="left: 0px; bottom: -581px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 581px; height: 585px; right: 5px;"><div class="ps__thumb-y" tabindex="0" style="top: 292px; height: 293px;"></div></div></div>
+				</div>
+                </tbody>
+						</table>
+					<div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 585px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 291px;"></div></div></div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="p-4 p-md-3 mb-4 rounded text-body-emphasis ">
-    <div class="col-lg-6 px-0">
-      <h1 class="display-4 fst-italic"></h1>
-      <p class="lead my-3"></p>
-      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold"></a></p>
-    </div>
-  </div>
-<div class="p-4 p-md-3 mb-4 rounded text-body-emphasis ">
-    <div class="col-lg-6 px-0">
-      <h1 class="display-4 fst-italic"></h1>
-      <p class="lead my-3"></p>
-      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold"></a></p>
-    </div>
-  </div>
-
 </body>
 {% endblock %}
 

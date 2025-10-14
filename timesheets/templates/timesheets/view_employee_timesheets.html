@@ -1,84 +1,88 @@
 {% extends "timesheets/base.html" %}
-{% block title %}View Employee Timesheets  - Espanini{% endblock %}
+{% block title %}View Employee Timesheets - Espanini{% endblock %}
 
 {% block content %}
-
-
 <body>
-
-
-
-
-
 
     <!-- Centered Employee Name -->
     <div class="container text-center my-4">
         <h2>{{ employee }}</h2>
     </div>
 
-    <!-- Bulk Sign Off Form -->
+    <!-- Total Hours Section -->
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                        <section style=" padding: 10px ;" >
-                <p class="text-center"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Clock_12-00.svg" width="16" height="16" fill="currentColor" class="bi bi-plus"> Total Hours Worked This Month: {{ total_hours_worked }}</p>
-               </section>
-
-
+                <section style="padding: 10px;">
+                    <p class="text-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Clock_12-00.svg" width="16" height="16">
+                        Total Hours Worked This Month: {{ total_hours_worked }}
+                    </p>
+                </section>
             </div>
         </div>
     </div>
 
+    <!-- Timesheet Table -->
+    <div class="table100 ver2 m-b-110">
+        {% if timesheets_info %}
+        <form method="post" action="{% url 'bulk_sign_off_timesheets' employee.employee_id site %}">
+            {% csrf_token %}
 
+            <div class="table100-head">
+                <table>
+                    <thead>
+                        <tr class="row100 head">
+                            <th class="cell100 column1">Day</th>
+                            <th class="cell100 column2">Date</th>
+                            <th class="cell100 column3">Time In</th>
+                            <th class="cell100 column4">Time Out</th>
+                            <th class="cell100 column5">Hours Worked</th>
+                            <th class="cell100 column6">
+                                <input type="checkbox" id="selectAll" class="custom-checkbox">
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
 
-                <div class="table100 ver2 m-b-110">
-					<div class="table100-head">
-                        {% if timesheets_info %}
-                    <form method="post" action="{% url 'bulk_sign_off_timesheets' employee.employee_id site %}">
-                    {% csrf_token %}
-						<table>
-							<thead>
-								<tr class="row100 head">
-									<th class="cell100 column1">Day</th>
-									<th class="cell100 column2">Date</th>
-									<th class="cell100 column3">Time In</th>
-									<th class="cell100 column4">Time Out</th>
-									<th class="cell100 column5">Hours Worked</th>
-                                    <th class="cell100 column6">Select</th>
-								</tr>
-							</thead>
-						</table>
-					    </div>
+            <div class="table100-body" style="max-height: 500px; overflow-y: auto; overflow-x: auto;">
+                <table>
+                    <tbody id="employeeTable">
+                        {% for timesheet in timesheets_info %}
+                        <tr class="row100 body">
+                            <td class="cell100 column1">{{ timesheet.Day }}</td>
+                            <td class="cell100 column2">{{ timesheet.date }}</td>
+                            <td class="cell100 column3">{{ timesheet.clock_in }}</td>
+                            <td class="cell100 column4">{{ timesheet.clock_out }}</td>
+                            <td class="cell100 column5">{{ timesheet.hours_worked }}</td>
+                            <td class="cell100 column6">
+                                <input type="checkbox" name="timesheet_ids" value="{{ timesheet.id }}" class="custom-checkbox timesheet-checkbox">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-					<div class="table100-body js-pscroll ps ps--active-y">
-						<table>
-							<tbody id="employeeTable" >
-                            {% for timesheet in timesheets_info %}
-								<tr class="row100 body">
-									<td class="cell100 column1">{{ timesheet.Day }}</td>
-									<td class="cell100 column2">{{ timesheet.date }}</td>
-									<td class="cell100 column3">{{ timesheet.clock_in }}</td>
-									<td class="cell100 column4">{{ timesheet.clock_out }}</td>
-									<td class="cell100 column5">{{ timesheet.hours_worked }}</td>
+            <button type="submit" class="btn  btn-primary float-end btn-sm mt-2">Sign Off Selected</button>
+        </form>
+        {% else %}
+        <h4 class="text-center">No Timesheets to sign off</h4>
+        {% endif %}
+    </div>
 
-                                    <td class="cell100 column6">
+    <script>
+        // Select All Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.timesheet-checkbox');
 
-                                    <input type="checkbox" name="timesheet_ids" value="{{ timesheet.id }}" class="custom-checkbox ">
-                                </td>
-								</tr>
-
-								{% endfor %}
-							</tbody>
-						</table>
-                        <button type="submit" class="btn btn-primary float-end btn-sm">Sign Off Selected</button>
-                </form>
-                {% else %}
-                <h4 class="text-center">No Timesheets to sign off</h4>
-                {% endif %}
-					<div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 585px; right: 5px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 288px;"></div></div></div>
-				</div>
-
-
+            selectAll.addEventListener('change', function () {
+                checkboxes.forEach(cb => cb.checked = selectAll.checked);
+            });
+        });
+    </script>
 
 </body>
 {% endblock %}
