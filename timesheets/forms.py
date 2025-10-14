@@ -164,11 +164,9 @@ class SiteManagersForm(forms.ModelForm):
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
 
-
-
     class Meta:
         model = SiteManagers
-        exclude = ['company']  # ✅ hide company
+        exclude = ['company']
         fields = ['site', 'employee', 'assigned', 'username']
         widgets = {
             'site': forms.Select(attrs={'class': 'form-control'}),
@@ -176,22 +174,50 @@ class SiteManagersForm(forms.ModelForm):
             'employee': forms.Select(attrs={'class': 'form-control'})
         }
 
-    def __init__(self, *args, user=None, site_instance=None, **kwargs):
-        self.site_instance = site_instance
-        self.user = user
+    def __init__(self, *args, user=None, **kwargs):
         super().__init__(*args, **kwargs)
+        self.user = user
 
-        if self.site_instance:
-            self.fields['site'].initial = self.site_instance
+        if self.user and getattr(self.user, "company_id", None):
+            # ✅ Determine correct DB alias
+            db_alias = (
+                self.user.tenant.db_alias
+                if hasattr(self.user, "tenant") and self.user.tenant
+                else "default"
+            )
+
+            # ✅ Filter Sites by company
+            site_queryset = Sites.objects.using(db_alias).filter(company_id=self.user.company_id)
+            self.fields["site"] = forms.ModelChoiceField(
+                queryset=site_queryset,
+                widget=forms.Select(attrs={"class": "form-control"}),
+                required=False,
+                label="Site",
+            )
+
+            # ✅ Filter Employees by company
+            employee_queryset = Employees.objects.using(db_alias).filter(company_id=self.user.company_id)
+            self.fields["employee"] = forms.ModelChoiceField(
+                queryset=employee_queryset,
+                widget=forms.Select(attrs={"class": "form-control"}),
+                required=False,
+                label="Employee",
+            )
+
+            # Optional: Debugging info
+            print("SiteManagersForm __init__ debug:")
+            print("DB alias:", db_alias)
+            print("Sites queryset SQL:", site_queryset.query)
+            print("Employees queryset SQL:", employee_queryset.query)
 
     def save(self, commit=True):
         tenant = get_current_tenant()
 
-        # Create user in default DB
+        # ✅ Create Django User in default DB
         user = User.objects.create_user(
-            username=self.cleaned_data['username'],
-            password=self.cleaned_data['password'],
-            email=self.cleaned_data['email']
+            username=self.cleaned_data["username"],
+            password=self.cleaned_data["password"],
+            email=self.cleaned_data["email"],
         )
         user.role = "site_manager"
         user.company = self.user.company if self.user and hasattr(self.user, "company") else None
@@ -199,7 +225,7 @@ class SiteManagersForm(forms.ModelForm):
             user.tenant = tenant
         user.save(using="default")
 
-        # Save SiteManager in tenant DB
+        # ✅ Create SiteManager in tenant DB
         site_manager = super().save(commit=False)
         site_manager.user_id = user.id
         site_manager.username = user.username
@@ -208,12 +234,13 @@ class SiteManagersForm(forms.ModelForm):
 
         if commit:
             if tenant:
-                site_manager.save(using=tenant.db_alias)  # ✅ tenant DB
+                site_manager.save(using=tenant.db_alias)
             else:
-                site_manager.save()  # fallback default
+                site_manager.save()
             self.save_m2m()
 
         return site_manager
+
 
 class UploadFileForm(forms.Form):
     file = forms.FileField()

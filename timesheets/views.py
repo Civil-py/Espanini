@@ -69,9 +69,11 @@ def get_user_site_id(user):
 @tenant_admin_required
 def sites(request):
     sites = Sites.objects.filter(company_id=request.user.company_id)
+    site_managers = SiteManagers.objects.filter(company_id=request.user.company_id)
 
     return render(request, "timesheets/sites.html", {
-        "sites": sites
+        "sites": sites,
+        "site_managers": site_managers
     })
 
 
@@ -222,19 +224,19 @@ def get_employee_list(employees, site):
     return employees_list
 
 @tenant_admin_required
-def add_site_managers(request, site_id):
-    site_instance = get_object_or_404(Sites, site_id=site_id)
+def add_site_managers(request):
+
     if request.method == "POST":
-        form = SiteManagersForm(request.POST, user=request.user, site_instance=site_instance,initial={'manager_site_id':  str(uuid4()).split('-')[2],})
+        form = SiteManagersForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('view_site', site_id=site_id)
+            return redirect('sites', )
     else:
-        form = SiteManagersForm(user=request.user, initial={'site': site_instance, 'assigned': datetime.now()}, site_instance=site_instance)
+        form = SiteManagersForm(user=request.user, initial={ 'assigned': datetime.now()}, )
 
     return render(request, "timesheets/add_site_managers.html", {
         'form': form,
-        'site': site_instance
+
     })
 
 
@@ -304,6 +306,22 @@ def view_site_manager(request, site_id, id):
         'site_manager': site_manager,
         'employee': employee
     })
+
+@tenant_admin_required
+def edit_site_manager(request, id):
+    site_manager = SiteManagers.objects.get(id=id)
+    form = SiteManagersForm(request.POST, instance=site_manager)
+
+    if request.method == "POST":
+        form = SiteManagersForm(request.POST, instance=site_manager)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"{site_manager} edited")
+            return redirect('sites',  )
+
+    context = {'form': form,
+               'site': site_manager}
+    return render(request, 'timesheets/edit_site.html', context)
 
 @tenant_admin_required
 def delete_site_manager(request, site_id, id):

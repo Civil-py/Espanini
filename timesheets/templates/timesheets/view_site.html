@@ -53,7 +53,7 @@
                   <h5 class="card-title">{{ site_manager.first_name }} {{ site_manager.last_name }}</h5>
                   <h6 class="card-subtitle mb-2 text-body-secondary">Employee No. {{ site_manager.employee_id }}</h6>
                   <p class="card-text"></p>
-                  <a href="{% url 'view_site_manager' site.site_id site_manager.site_manager_id %}" class="card-link">View</a>
+                  <a href="{% url 'edit_site_manager' site_manager.site_manager_id %}" class="card-link">View</a>
                 </div>
               </div>
             </div>
@@ -68,11 +68,11 @@
     </div>
 
     <div class="mt-4">
-      <a href="{% url 'add_site_managers' site.site_id %}">
+      <a href="{% url 'add_site_managers'  %}">
 
         <button class="btn btn-sm btn-outline-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-</svg>Add site managers</button>
+</svg>Add site manager</button>
       </a>
       <a href="{% url 'delete_site' site.site_id %}">
         <button class="btn btn-danger float-end">Delete Site</button>
@@ -88,6 +88,8 @@
 
   </div>
 </div>
+
+
 
 <hr>
 </body>

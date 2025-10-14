@@ -30,9 +30,9 @@ urlpatterns = [
     path('delete-site/<str:site_id>', views.delete_site, name="delete_site"),
 
 
-    path('add-site-managers/<str:site_id>', views.add_site_managers, name="add_site_managers"),
+    path('add-site-managers/', views.add_site_managers, name="add_site_manager"),
     path('view-site-managers/<str:site_id>', views.view_site_managers, name="view_site_managers"),
-    path('view-site-manager/<str:site_id>/<int:id>', views.view_site_manager, name="view_site_manager"),
+    path('edit-site-manager/<int:id>', views.edit_site_manager, name="edit_site_manager"),
     path('delete-site/<str:site_id>/<int:id>', views.delete_site_manager, name="delete_site_manager"),
 
 

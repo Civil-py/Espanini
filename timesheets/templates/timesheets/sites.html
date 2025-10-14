@@ -13,24 +13,18 @@
 </style>
 <body>
 <div>
-<section style=" padding: 60px ;" >
-              <h4></h4>
-        <div class="tittle wow fadeInUp text-center" style="visibility: visible; animation-name: fadeInUp;">
-                        <h1 class="display-4">
-   Sites
-                        </h1>
 
-                    </div>
-            </section>
 
 
  <div class="container">
       <a href="{% url 'add_site' %}">
-<button class="btn btn-sm btn-outline-primary float-end"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+<button class="btn btn-sm btn-outline-primary float-end">Add Site<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
 </svg></button>
     </a>
-      <div class="row justify-content-center"> <!-- Bootstrap row to create grid -->
+      <div class="">
+          <!-- Bootstrap row to create grid -->
+          <h3>Sites</h3>
 
         {% for site in sites %}
         <div class="col-md-4 mb-4"> <!-- Bootstrap column, 4 columns per row -->
@@ -48,13 +42,70 @@
       </div>
 
 
+<div>
+
+
+<div class="container-table100">
+
+			<div class="wrap-table100">
+                <h3 class="text-center">Site Managers </h3>
+				<div class="table100 ver5 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">Username</th>
+									<th class="cell100 column2">Employee</th>
+                                    <th class="cell100 column3">Employee No</th>
+									<th class="cell100 column4">Site</th>
+									<th class="cell100 column5">Assigned</th>
+
+
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table100-body">
+						<table>
+							<tbody>
+                             {% for site_manager in site_managers %}
+                                <tr class="row100 body">
+                                    <td class="cell100 column1">
+                                    <a href="{% url 'edit_site_manager' site_manager.id %}" class="text-decoration-none text-black">
+									{{ site_manager.username }}
+                                        </a></td>
+									<td class="cell100 column2">{{ site_manager.employee }}</td>
+									<td class="cell100 column3">{{ site_manager.employee.employee_id }}</td>
+                                    <td class="cell100 column4">{{ site_manager.site }}</td>
+
+                                    <td class="cell100 column5">{{ site_manager.assigned}}</td>
+
+
+
+								</tr>
+
+
+								{% endfor %}
+							</tbody>
+						</table>
+					<div class="ps__rail-x" style="left: 0px; bottom: -581px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 581px; height: 585px; right: 5px;"><div class="ps__thumb-y" tabindex="0" style="top: 292px; height: 293px;"></div></div></div>
+				</div>
+                </tbody>
+						</table>
+					<div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 585px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 291px;"></div></div></div>
+				</div>
+			</div>
+		</div>
+     <a href="{% url 'add_site_manager' %}">
+<button class="btn btn-sm btn-outline-primary float-end">Add Site Manager<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg></button>
+    </a>
+
 </div>
 
-
-
-
-
-
+</div>
 
 </body>
 {% endblock %}
