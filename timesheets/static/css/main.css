@@ -528,3 +528,32 @@ th, td {
 .table100.ver5 .ps__rail-y .ps__thumb-y::before {
   background-color: #cccccc;
 }
+
+._dot_y8x8c_7 {
+    width: 8px;
+    height: 8px;
+    border-radius: 100%
+}
+
+._ok_y8x8c_13 {
+    background-color: #00db9a
+}
+
+._default_i8bsk_78 {
+    --vertical-padding: 3px;
+    border: 1px solid var(--glow-color-border-default);
+    background-color: v#3b3b3b;
+}
+
+._container_y8x8c_1 {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+._s_i8bsk_21, ._m_i8bsk_22 {
+    border-radius: 10px;
+    font: var(--base-typography-tag);
+    letter-spacing: .4px;
+}
+
