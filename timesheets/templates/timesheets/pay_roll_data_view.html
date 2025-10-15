@@ -3,16 +3,8 @@
 
 {% block content %}
 <body>
-<div>
-    <p></p>
-</div>
-<div class="p-4 p-md-3 mb-4 rounded text-body-emphasis ">
-    <div class="col-lg-6 px-0">
-      <h1 class="display-4 fst-italic"></h1>
-      <p class="lead my-3"></p>
-      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold"></a></p>
-    </div>
-  </div>
+
+
 <form method="GET" action="{% url 'payroll_data' %}">
     <div class="row">
         <div class="col-md-6">
@@ -34,52 +26,91 @@
     <p></p>
 </form>
 
-<table class="table table-dark table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Employee No.</th>
-        <th scope="col">Name</th>
-        <th scope="col">Surname</th>
-        <th scope="col">Position</th>
-        <th scope="col">Site</th>
-        <th scope="col">Normal Hours</th>
-        <th scope="col">Overtime Normal and Saturdays</th>
-        <th scope="col">Overtime Holiday and Sundays</th>
-        <th scope="col">Total Hours Worked</th>
-         <th scope="col">Owed</th>
-        <th scope="col">Period</th>
-      </tr>
-    </thead>
-    <tbody id="employeeTable">
-      {% for employee in employees %}
-      <tr>
-        <td>{{ employee.employee_id }}</td>
-        <td>{{ employee.first_name }}</td>
-        <td>{{ employee.last_name }}</td>
-        <td>{{ employee.position }}</td>
-        <td>{{ employee.site }}</td>
-        <td>{{ employee.total_normal_hours }}</td>
-        <td>{{ employee.total_overtime_normal_saturdays }}</td>
-        <td>{{ employee.total_overtime_holiday_sundays }}</td>
-        <td>{{ employee.total_hours_worked }}</td>
-         <td>R{{ employee.owed }}</td>
-        <td>{{ employee.period }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-</table>
 
+
+<div class="container-table100">
+
+			<div class="wrap-table100">
+                <h3 class="text-center">Payroll Data </h3>
+                <p>Period: {{ period }}</p>
+				<div class="table100 ver3 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">Employee No.</th>
+									<th class="cell100 column2">Name</th>
+                                    <th class="cell100 column3">Surname</th>
+									<th class="cell100 column4">Site</th>
+									<th class="cell100 column5">Normal Hours</th>
+                                    <th class="cell100 column5">OT 1</th>
+                                    <th class="cell100 column5">OT 2</th>
+                                    <th class="cell100 column5">Total Hours</th>
+                                    <th class="cell100 column5">Owed</th>
+
+
+
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table100-body">
+						<table>
+							<tbody>
+                             {% for employee in employees %}
+                                <tr class="row100 body">
+                                    <td class="cell100 column1">
+
+									{{ employee.employee_id }}
+                                        </td>
+									<td class="cell100 column2">{{ employee.first_name }}</td>
+									<td class="cell100 column3">{{ employee.last_name }}</td>
+                                    <td class="cell100 column4">{{ employee.site }}</td>
+
+                                    <td class="cell100 column5">{{ employee.total_normal_hours }}</td>
+                                    <td class="cell100 column5">{{ employee.total_overtime_normal_saturdays }}</td>
+                                    <td class="cell100 column5">{{ employee.total_overtime_holiday_sundays }}</td>
+                                    <td class="cell100 column5">{{ employee.total_hours_worked }}</td>
+                                    <td class="cell100 column5">R{{ employee.owed }}</td>
+
+
+
+
+								</tr>
+
+
+								{% endfor %}
+							</tbody>
+						</table>
+					<div class="ps__rail-x" style="left: 0px; bottom: -581px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 581px; height: 585px; right: 5px;"><div class="ps__thumb-y" tabindex="0" style="top: 292px; height: 293px;"></div></div></div>
+				</div>
+                </tbody>
+						</table>
+					<div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 585px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 291px;"></div></div></div>
+				</div>
 <form method="GET" action="{% url 'payroll_data_pdf' start_date end_date %}">
     <input type="hidden" name="start_date" value="{{ start_date }}">
     <input type="hidden" name="end_date" value="{{ end_date }}">
-    <button type="submit" class="btn btn-sm btn-outline-secondary">Download as PDF</button>
+    <button type="submit" class="btn btn-sm btn-outline-secondary float-end">Download as PDF</button>
 </form>
 
 <form method="GET" action="{% url 'payroll_data_excel' start_date end_date %}">
     <input type="hidden" name="start_date" value="{{ start_date }}">
     <input type="hidden" name="end_date" value="{{ end_date }}">
-    <button type="submit" class="btn btn-sm btn-outline-secondary">Download as Excel</button>
+    <button type="submit" class="btn btn-sm btn-outline-secondary ">Download as Excel</button>
 </form>
+			</div>
+
+
+		</div>
+
+</div>
+
+
+
+
+
 
 
 </body>

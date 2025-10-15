@@ -77,9 +77,16 @@
                                     {{ timesheet.date }}
                             </a></td>
 									<td class="cell100 column2">{{ timesheet.clock_in }}</td>
+                                {% if timesheet.clock_out %}
 									<td class="cell100 column3">{{ timesheet.clock_out }}</td>
-
+                             {% else %}
+                            <td class="cell100 column3">---</td>
+                            {% endif %}
+                                    {% if timesheet.hours_worked %}
                                     <td class="cell100 column4">{{ timesheet.hours_worked }}</td>
+                                     {% else %}
+                            <td class="cell100 column4">---</td>
+                            {% endif %}
 
                                           <td class="cell100 column5">
           {{ timesheet.overtime_normal_saturdays }}
@@ -88,7 +95,7 @@
                              {% if timesheet.signed_off_by %}
                              <td class="cell100 column6">{{ timesheet.signed_off_by }}</td>
                              {% else %}
-                            <td class="cell100 column6">Not Signed Off Yet</td>
+                            <td class="cell100 column6">---</td>
                             {% endif %}
 								</tr>
 

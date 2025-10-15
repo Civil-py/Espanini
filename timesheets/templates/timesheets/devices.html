@@ -5,32 +5,58 @@
 {% for m in messages %}
 {{ m }}
 {% endfor %}
-<h2>Users</h2>
+
 <div class="container">
 
-    <table class="table">
-        <tr>
-            <th>Name</th>
-            <th>Serial Number</th>
-            <th>Employees Registered</th>
-            <th>Last Seen</th>
-            <th>Status</th>
 
-        </tr>
-        {% for device in devices %}
-        <tr>
-            <td>
 
-                    {{ device.name }}
 
-            </td>
-            <td>{{ device.serial_number }}</td>
-            <td>{{ device.employees }}</td>
-            <td>{{ device.last_seen }}</td>
-            <td>{{ device.status }}</td>
+<div class="container-table100">
 
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+			<div class="wrap-table100">
+                <h3 class="text-center">My Devices </h3>
+
+				<div class="table100 ver3 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">Name</th>
+									<th class="cell100 column2">Serial Number</th>
+                                    <th class="cell100 column3">Last Seen</th>
+									<th class="cell100 column4">Status</th>
+
+
+
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table100-body">
+						<table>
+							<tbody>
+                             {% for device in devices %}
+                                <tr class="row100 body">
+                                    <td class="cell100 column1">
+
+									{{ device.name }}
+                                        </td>
+									<td class="cell100 column2">{{ device.serial_number }}</td>
+									<td class="cell100 column3">{{ device.last_seen }}</td>
+                                    <td class="cell100 column4">{{ device.status }}</td>
+
+
+								</tr>
+
+
+								{% endfor %}
+							</tbody>
+						</table>
+					<div class="ps__rail-x" style="left: 0px; bottom: -581px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 581px; height: 585px; right: 5px;"><div class="ps__thumb-y" tabindex="0" style="top: 292px; height: 293px;"></div></div></div>
+				</div>
+                </tbody>
+						</table>
+					<div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 585px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 291px;"></div></div></div>
+				</div>
 {% endblock %}

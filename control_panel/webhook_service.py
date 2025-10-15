@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils.dateparse import parse_datetime
 from django.http import JsonResponse
 from timesheets.models import Timesheets, Employees
@@ -97,7 +97,9 @@ def process_event(raw_event):
         return {"status": "error", "message": str(e)}
 
 
-def _process_event_in_tenant(device, emp_no, status, date, time_, ):
+
+
+def _process_event_in_tenant(device, emp_no, status, date, time_):
     """Logic that writes to Timesheets in the correct tenant DB."""
     company = device.company
     print(f"👷 Looking up employee: {emp_no} in company: {company} ")
@@ -108,10 +110,13 @@ def _process_event_in_tenant(device, emp_no, status, date, time_, ):
         print(f"🚫 No employee found with ID={emp_no} for company={company}")
         return {"status": "error", "message": f"No matching employee {emp_no}"}
 
+    # ✅ Always update last_seen on event
+    device.last_seen = datetime.now()
+    device.save(update_fields=["last_seen"])
+    print(f"📡 Device '{device.name}' last_seen updated at {device.last_seen}")
+
     # ✅ Check-in
     if status.lower() == "checkin":
-        from datetime import timedelta, datetime
-
         duplicate = Timesheets.objects.filter(
             company=company,
             employee_id=emp_no,
@@ -133,6 +138,7 @@ def _process_event_in_tenant(device, emp_no, status, date, time_, ):
             clock_in=time_,
         )
         print(f"🕓 CheckIn recorded for {emp_no} at {time_}")
+
         current_connected = (employee.connected or "").lower().strip()
         if current_connected != "yes":
             employee.connected = "yes"

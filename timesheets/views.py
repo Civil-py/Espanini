@@ -660,12 +660,13 @@ def payroll_data(request):
                 'period': f'{format_date(start_date)} - {format_date(end_date)}'
             }
             employee_payroll_data.append(employee_info)
-
+    period = f'{format_date(start_date)} - {format_date(end_date)}'
     return render(request, "timesheets/pay_roll_data_view.html", {
         'employees': employee_payroll_data,  # Use the filtered list
         'timesheets': timesheets,
         'start_date': start_date_str,
         'end_date': end_date_str,
+        'period': period
 
 
     })
