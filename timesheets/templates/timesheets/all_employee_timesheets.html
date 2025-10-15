@@ -87,12 +87,20 @@
                                      {% else %}
                             <td class="cell100 column4">---</td>
                             {% endif %}
-
+                            {% if timesheet.hours_worked %}
                                           <td class="cell100 column5">
           {{ timesheet.overtime_normal_saturdays }}
-        </td>
+                             </td>
+                             {% else %}
+                            <td class="cell100 column5">---</td>
+                             {% endif %}
+                             {% if timesheet.hours_worked %}
                              <td class="cell100 column6">{{ timesheet.overtime_holiday_sundays }}</td>
+                              {% else %}
+                            <td class="cell100 column6">---</td>
+                             {% endif %}
                              {% if timesheet.signed_off_by %}
+
                              <td class="cell100 column6">{{ timesheet.signed_off_by }}</td>
                              {% else %}
                             <td class="cell100 column6">---</td>
