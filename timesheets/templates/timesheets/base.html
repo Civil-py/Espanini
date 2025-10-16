@@ -79,6 +79,32 @@
   }
 }
 
+    /* Override form field visibility issues */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+input[type="datetime-local"],
+select,
+textarea {
+  background-color: #fff !important;
+  border: 1px solid #ccc !important;
+  color: #000 !important;
+  border-radius: 6px !important;
+  padding: 8px 10px !important;
+
+  box-shadow: none !important;
+  transition: border-color 0.2s ease-in-out;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #007bff !important; /* subtle blue highlight */
+  outline: none !important;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.25) !important;
+}
   </style>
 </head>
 <body>

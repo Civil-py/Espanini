@@ -4,14 +4,7 @@
 {% block content %}
 
 <div class="container-fluid">
-  <div class="row mb-3">
-    <div class="d-flex justify-content-between align-items-center ">
 
-      <div class="search-bar">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search for employees...">
-      </div>
-    </div>
-  </div>
 
 
 
@@ -26,17 +19,26 @@
 			<div class="wrap-table100">
 
                 <h3 class="text-center display-5">Employees</h3>
-                <form method="get" action="{% url 'employees' %}" class="mb-3">
-    <label for="site">Site:</label>
-    <select id="site" name="site" onchange="this.form.submit()">
-      <option value="">All</option>
-      {% for site in sites %}
-      <option value="{{ site.site_id }}" {% if selected_site == site.site_id|stringformat:"s" %}selected{% endif %}>
-        {{ site }}
-      </option>
-      {% endfor %}
-    </select>
-  </form>
+                <div class="row mb-3">
+  <div class="d-flex justify-content-between align-items-center">
+    <form method="get" action="{% url 'employees' %}" class="d-flex align-items-center mb-0">
+      <label for="site" class="me-2 mb-0 fw-semibold">Site:</label>
+      <select id="site" name="site" class=" form-select-sm" style="width: auto;" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for site in sites %}
+        <option value="{{ site.site_id }}" {% if selected_site == site.site_id|stringformat:"s" %}selected{% endif %}>
+          {{ site }}
+        </option>
+        {% endfor %}
+      </select>
+    </form>
+
+    <div class="search-bar" style="width: 250px;">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search for employees...">
+    </div>
+  </div>
+</div>
+
 
 				<div class="table100 ver1 m-b-110">
 					<div class="table100-head">

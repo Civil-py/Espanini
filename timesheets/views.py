@@ -778,8 +778,9 @@ def format_date(date):
 @login_required
 def view_employee_timesheets(request, id, site_id):
     current_year_month = get_year_month(datetime.today().date())
-    timesheets = Timesheets.objects.filter(company_id=request.user.company_id, site_id=site_id, clock_out__isnull=False)
     employee = Employees.objects.get(id=id)
+    timesheets = Timesheets.objects.filter(company_id=request.user.company_id, site_id=site_id, clock_out__isnull=False, employee_id=employee.employee_id)
+
     site_name = site_id
     site = site_id
     timesheets_signed_off = Timesheets.objects.filter(employee_id=employee.employee_id, signed_off ='Yes', company_id=request.user.company_id)
