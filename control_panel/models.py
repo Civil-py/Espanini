@@ -25,7 +25,7 @@ class Company(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.name} ({self.tier})"
+        return f"{self.name} "
 
 class Tenant(models.Model):
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True, )

@@ -77,6 +77,14 @@
 
     }
 
+    .navbar .company-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #ffffff;
+  margin-right: 10px;
+}
+
+
     .navbar .dropdown-toggle::after {
       display: none !important;
     }
@@ -85,38 +93,35 @@
 <body class="gradient-background">
   <div class="header-container">
     <nav class="navbar navbar-custom navbar-expand-lg">
-      <div class="container-fluid">
-        {% if user.is_authenticated %}
+  <div class="container-fluid d-flex justify-content-between align-items-center">
 
-          <!-- Dropdown menu for authenticated users -->
-          <li class="nav-item dropdown">
-
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    <img src="https://github.com/Civil-py/SAM-tool/blob/main/mvulane-tech-favicon-white.png?raw=true" alt="{{ user.username }}" class="profile-img">
-  </a>
-
-  <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-    <li class="dropdown-item "> User: {{ user.username }}</li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-  </ul>
-
-</li>
-
-        {% else %}
-          <!-- Home link for unauthenticated users -->
-          <a class="navbar-brand" href="{% url 'index' %}">
-            Home
+    {% if user.is_authenticated %}
+      <!-- Left side: Profile dropdown -->
+      <div class="d-flex align-items-center">
+        <li class="nav-item dropdown list-unstyled mb-0">
+          <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/Civil-py/SAM-tool/blob/main/mvulane-tech-favicon-white.png?raw=true"
+                 alt="{{ user.username }}" class="profile-img">
           </a>
-        {% endif %}
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-
+          <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown">
+            <li class="dropdown-item">User: {{ user.username }}</li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </li>
       </div>
-    </nav>
+
+      <!-- Right side: Company name -->
+      <span class="text-white me-3 fw-semibold">{{ user.company }}</span>
+
+    {% else %}
+      <!-- For unauthenticated users -->
+      <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+    {% endif %}
+  </div>
+</nav>
+
+
   </div>
 
   <!-- Your page content here -->
