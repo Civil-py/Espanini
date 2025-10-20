@@ -105,6 +105,40 @@ textarea:focus {
   outline: none !important;
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.25) !important;
 }
+
+    table {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+    border-radius: 10px;
+    border-collapse: separate; /* allows rounded corners */
+    border-spacing: 0;
+    overflow: hidden; /* prevents inner edges from leaking past rounded corners */
+    transition: all 0.3s ease;
+  }
+
+  /* Smooth hover lift (like cards) */
+  table:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 1);
+  }
+
+  /* Optional: match cell padding and spacing style */
+  table th, table td {
+    padding: 12px 15px;
+    vertical-align: middle;
+  }
+
+ .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+    border: none;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+  }
+
+  /* Optional: soften header color */
+  table thead th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
   </style>
 </head>
 <body>

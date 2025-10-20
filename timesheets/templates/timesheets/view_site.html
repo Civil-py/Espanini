@@ -43,23 +43,7 @@
         <h5 class="card-title display-4">{{ site }}</h5>
         <p class="card-text">{{ site.site_address }}</p>
 
-        <div>
-          <h3>Site Managers</h3>
-          <div class="row">
-          {% for site_manager in employee_info %}
-            <div class="col-md-4 mb-4">
-              <div class="card d-flex" style="width: 18rem; height: 7rem;">
-                <div class="card-body">
-                  <h5 class="card-title">{{ site_manager.first_name }} {{ site_manager.last_name }}</h5>
-                  <h6 class="card-subtitle mb-2 text-body-secondary">Employee No. {{ site_manager.employee_id }}</h6>
-                  <p class="card-text"></p>
-                  <a href="{% url 'edit_site_manager' site_manager.site_manager_id %}" class="card-link">View</a>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-          </div> <!-- end row -->
-        </div>
+
 
         <div class="card-footer text-body-secondary">
           Employees: {{ site_employees }}
