@@ -140,12 +140,14 @@
               <hr>
               <div class="dropdown">
       <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          {% if user.is_superuser %}
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXWIdl4uwcOxTNHbTiUGJ5f4QS6nAJcTZjJw&s" alt="" width="32" height="32" class="rounded-circle me-2">
+          {% if user.role == "tenant_admin" or user.role == "platform_admin"  %}
+        <img src="https://cdn3.emoji.gg/emojis/78619-member.png" alt="" width="32" height="32" class="rounded-circle me-2">
+          <strong style="color: black">Admin</strong>
           {% else %}
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzguvPaNlxlaAmRmyeXU_KEYokLrjLn81EIg&s" alt="" width="32" height="32" class="rounded-circle me-2">
+          <img src="https://cdn3.emoji.gg/emojis/82628-member.png" alt="" width="32" height="32" class="rounded-circle me-2">
+          <strong style="color: black">Manager</strong>
            {% endif %}
-        <strong style="color: black">{{ user }}</strong>
+
       </a>
       <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
 
