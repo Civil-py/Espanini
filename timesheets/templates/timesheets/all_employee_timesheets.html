@@ -2,14 +2,211 @@
 {% block title %}Timesheet History - Espanini{% endblock %}
 
 {% block content %}
+<style>
+    /* Ensure header and body tables share equal widths */
+.table100-head table,
+.table100-body table {
+  width: 100%;
+  table-layout: fixed; /* force equal-width columns */
+  border-collapse: collapse;
+}
+
+
+
+
+
+/* Make "Signed" column (last one) a bit wider */
+.table100-head th.cell100.column6,
+.table100-body td.cell100.column6 {
+  width: 18%;
+}
+
+
+.table100-head th.cell100.column5,
+.table100-body td.cell100.column5 {
+  width: 10%;
+}
+
+.table100-head th.cell100.column2,
+.table100-body td.cell100.column2 {
+  width: 12%;
+}
+
+.table100-head th.cell100.column3,
+.table100-body td.cell100.column3 {
+  width: 12%;
+}
+
+.table100.ver2 .table100-head {
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+.table100.ver2 th {
+
+  font-size: 18px;
+  color: #fa4251;
+  line-height: 1.4;
+
+  background-color: transparent;
+}
+
+.table100.ver2 td {
+  font-family: Lato-Regular;
+  font-size: 15px;
+  color: #808080;
+  line-height: 1.4;
+}
+
+.table100.ver2 .table100-body tr {
+  border-bottom: 1px solid #f2f2f2;
+}
+
+/*---------------------------------------------*/
+
+.table100.ver2 {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+  -o-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+  -ms-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+}
+
+.table100.ver2 .ps__rail-y {
+  right: 5px;
+}
+
+.table100.ver2 .ps__rail-y::before {
+  background-color: #ebebeb;
+}
+
+.table100.ver2 .ps__rail-y .ps__thumb-y::before {
+  background-color: #cccccc;
+}
+
+
+/* Optional hover style */
+.table100-body tr:hover td {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+
+
+/* Optional: smooth scrollbar */
+.container-table100::-webkit-scrollbar {
+  height: 8px;
+}
+.container-table100::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 10px;
+}
+.container-table100::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+@media (max-width: 768px) {
+  /* Ensure outer container stretches to full screen */
+  .container-table100,
+  .wrap-table100,
+  .table100 {
+    width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0; /* optional: edge-to-edge look */
+  }
+
+  /* Make the table slightly wider so horizontal scroll works */
+  .table100-head table,
+  .table100-body table {
+    width: 120%;
+  }
+
+  /* Smaller font and padding for compact layout */
+  .table100-head th.cell100,
+  .table100-body td.cell100 {
+    font-size: 10px;
+    padding: 8px 10px;
+  }
+
+  /* Adjust specific columns for better balance */
+  .table100-head th.cell100.column1,
+  .table100-body td.cell100.column1 {
+    width: 18%;
+  }
+
+  .table100-head th.cell100.column6,
+  .table100-body td.cell100.column6 {
+    width: 25%; /* Signed column gets more space */
+    white-space: nowrap;
+  }
+
+  /* Add subtle scrollbar styling for mobile scroll */
+  .container-table100::-webkit-scrollbar {
+    height: 12px;
+  }
+  .container-table100::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .table100-head th.cell100,
+  .table100-body td.cell100 {
+    font-size: 5px;
+    padding: 10px 10px;
+  }
+
+  .table100 {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Slightly increase table width for smoother scrolling */
+  .table100-head table,
+  .table100-body table {
+    width: 140%;
+  }
+}
+
+    /* Align filters left without touching other d-flex layouts */
+.row.mb-3 .d-flex {
+  justify-content: flex-start !important;
+}
+
+    /* Force the filter form to align fully left */
+.container-table100 .row.mb-3,
+.container-table100 .row.mb-3 .d-flex {
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+
+.container-table100 form {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+
+    .row.mb-3 {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px 15px;
+
+}
+
+
+
+</style>
 
 <body>
 
-<section style="background: #fefefe; padding: 30px ;" >
 
 
-            </section>
-<div class="container">
 
     <div class="tittle wow fadeInUp text-center" style="visibility: visible; animation-name: fadeInUp;">
                         <h1 class="display-5">
@@ -20,8 +217,15 @@
 
     <!-- Display the current year and month if provided -->
 
+
+
+
+
+    <div class="row mb-3">
+    <div class="d-flex justify-content-start align-items-center">
+
     <!-- Filter Form -->
-    <form method="get" action="{% url 'all_employee_timesheets' employee.id employee.employee_id %}">
+    <form method="get"  action="{% url 'all_employee_timesheets' employee.id employee.employee_id %}">
         <label for="year" style="color: black">Year:</label>
         <select id="year" name="year" onchange="this.form.submit()">
             <option value="">All</option>
@@ -42,15 +246,11 @@
             {% endfor %}
         </select>
     </form>
-
-    <!-- Display the filtered timesheets -->
-<p></p>
-
-
-
-
-
+    </div>
+        </div>
 <div class="container-table100">
+
+
 			<div class="wrap-table100">
 				<div class="table100 ver2 m-b-110">
 					<div class="table100-head">
@@ -62,7 +262,7 @@
 									<th class="cell100 column3">Time Out</th>
                                     <th class="cell100 column4">Hours Worked</th>
 									<th class="cell100 column5">OT 1</th>
-									<th class="cell100 column6">OT 2</th>
+									<th class="cell100 column5">OT 2</th>
                                     <th class="cell100 column6">Signed</th>
 
 								</tr>
@@ -96,9 +296,9 @@
                             <td class="cell100 column5">---</td>
                              {% endif %}
                              {% if timesheet.hours_worked %}
-                             <td class="cell100 column6">{{ timesheet.overtime_holiday_sundays }}</td>
+                             <td class="cell100 column5">{{ timesheet.overtime_holiday_sundays }}</td>
                               {% else %}
-                            <td class="cell100 column6">---</td>
+                            <td class="cell100 column5">---</td>
                              {% endif %}
                              {% if timesheet.signed_off_by %}
 
@@ -120,8 +320,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
 </div>
+
 </body>
 {% endblock %}
 

@@ -2,6 +2,98 @@
 {% block title %}PayrollData - Espanini{% endblock %}
 
 {% block content %}
+
+<style>
+/* ================= Table Base Styles ================= */
+.table100-head table,
+.table100-body table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.table100-body tr:hover td {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.container-table100::-webkit-scrollbar {
+    height: 8px;
+}
+
+.container-table100::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 10px;
+}
+
+.table100-head th.cell100.column1,
+.table100-body td.cell100.column1 { width: 12%; }
+
+/* Optional: additional column adjustments */
+.table100-head th.cell100.column2,
+.table100-body td.cell100.column2 { width: 14%; }
+.table100-head th.cell100.column3,
+.table100-body td.cell100.column3 { width: 14%; }
+.table100-head th.cell100.column4,
+.table100-body td.cell100.column4 { width: 12%; }
+.table100-head th.cell100.column5,
+.table100-body td.cell100.column5 { width: 12%; }
+.table100-head th.cell100.column6,
+.table100-body td.cell100.column6 { width: 10%; }
+
+@media (max-width: 768px) {
+  /* Ensure outer container stretches to full screen */
+  .container-table100,
+  .wrap-table100,
+  .table100 {
+    width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0; /* optional: edge-to-edge look */
+  }
+
+  /* Make the table slightly wider so horizontal scroll works */
+  .table100-head table,
+  .table100-body table {
+    width: 120%;
+  }
+
+  /* Smaller font and padding for compact layout */
+  .table100-head th.cell100,
+  .table100-body td.cell100 {
+    font-size: 10px;
+    padding: 8px 10px;
+  }
+
+
+  /* Add subtle scrollbar styling for mobile scroll */
+  .container-table100::-webkit-scrollbar {
+    height: 12px;
+  }
+  .container-table100::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .table100-head th.cell100,
+  .table100-body td.cell100 {
+    font-size: 5px;
+    padding: 10px 5px;
+  }
+
+  .table100 {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Slightly increase table width for smoother scrolling */
+  .table100-head table,
+  .table100-body table {
+    width: 140%;
+  }
+}
+</style>
 <body>
 
 
@@ -30,22 +122,23 @@
 
 <div class="container-table100">
 
+
 			<div class="wrap-table100">
                 <h3 class="text-center">Payroll Data </h3>
                 <p>Period: {{ period }}</p>
-				<div class="table100 ver3 m-b-110">
+				<div class="table100 ver3 m-b-110" >
 					<div class="table100-head">
 						<table>
 							<thead>
 								<tr class="row100 head">
-									<th class="cell100 column1">Employee No.</th>
+									<th class="cell100 column1">EMP No.</th>
 									<th class="cell100 column2">Name</th>
                                     <th class="cell100 column3">Surname</th>
 									<th class="cell100 column4">Site</th>
-									<th class="cell100 column6">Normal Hours</th>
+									<th class="cell100 column4">Normal</th>
                                     <th class="cell100 column6">OT 1</th>
                                     <th class="cell100 column6">OT 2</th>
-                                    <th class="cell100 column1">Total Hours</th>
+                                    <th class="cell100 column1">Total</th>
                                     <th class="cell100 column5">Owed</th>
 
 
@@ -68,7 +161,7 @@
 									<td class="cell100 column3">{{ employee.last_name }}</td>
                                     <td class="cell100 column4">{{ employee.site }}</td>
 
-                                    <td class="cell100 column6">{{ employee.total_normal_hours }}</td>
+                                    <td class="cell100 column4">{{ employee.total_normal_hours }}</td>
                                     <td class="cell100 column6">{{ employee.total_overtime_normal_saturdays }}</td>
                                     <td class="cell100 column6">{{ employee.total_overtime_holiday_sundays }}</td>
                                     <td class="cell100 column1">{{ employee.total_hours_worked }}</td>

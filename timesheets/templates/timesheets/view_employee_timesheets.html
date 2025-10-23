@@ -2,6 +2,53 @@
 {% block title %}View Employee Timesheets - Espanini{% endblock %}
 
 {% block content %}
+<style>
+@media (max-width: 480px) {
+  /* Hide original text safely */
+  .table100-head th.column3,
+  .table100-head th.column4,
+  .table100-head th.column5 {
+    text-indent: -9999px;  /* push original text out of view */
+    position: relative;     /* for ::after positioning */
+  }
+
+  /* Add replacement text */
+  .table100-head th.column3::after {
+    content: "In";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: 600;
+    color: black;
+  }
+
+  .table100-head th.column4::after {
+    content: "Out";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: 600;
+    color: black;
+  }
+
+  .table100-head th.column5::after {
+    content: "Hrs Wrk";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: 600;
+    color: black;
+  }
+}
+
+</style>
+
 <body>
 
     <!-- Centered Employee Name -->
@@ -83,6 +130,32 @@
             });
         });
     </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function updateHeaders() {
+    const small = window.innerWidth <= 480;
+    const headersMap = {
+      'column3': { short: 'In', full: 'Time In' },
+      'column4': { short: 'Out', full: 'Time Out' },
+      'column5': { short: 'Hrs Wrk', full: 'Hours Worked' }
+    };
+
+    Object.keys(headersMap).forEach(cls => {
+      // select all matching th elements
+      document.querySelectorAll('.table100-head th.' + cls).forEach(th => {
+        // store original text once
+        if (!th.dataset.fullText) th.dataset.fullText = th.textContent.trim();
+        th.textContent = small ? headersMap[cls].short : th.dataset.fullText;
+      });
+    });
+  }
+
+  updateHeaders();
+  window.addEventListener('resize', updateHeaders);
+});
+</script>
+
 
 </body>
 {% endblock %}

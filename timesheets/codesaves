@@ -494,3 +494,14 @@ curl -X POST https://espanini.onrender.com/api/webhook/attendance/ \
 ""
 
 
+all_employess template
+"/* Equal column widths (based on your 7 columns) */
+.table100-head th.cell100,
+.table100-body td.cell100 {
+  width: 14.28%; /* 100 / 7 columns */
+  text-align: left;
+  padding: 10px 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}"
